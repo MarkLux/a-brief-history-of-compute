@@ -51,7 +51,7 @@
 
 - 03：Kubernetes - 基本概念设计
 
-- 04：Kubernetes - Workload
+- 04：Kubernetes - 基础Workload分析
 
 - 05：Kubernetes - 扩展机制 Operator & CRD
 
