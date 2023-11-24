@@ -2,7 +2,17 @@
 
 ### Pod
 
+#### Pod的结构
+
+#### Pause容器
+
+#### 生命周期与钩子
+
 ### Service
+
+#### 分类：NodePort和LoadBalancer
+
+#### 构成：Endpoint和Proxy
 
 ### Volume
 
