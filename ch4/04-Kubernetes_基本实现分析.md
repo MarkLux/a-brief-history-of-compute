@@ -195,7 +195,9 @@ req, err := http.NewRequest("GET", "http://${serviceName}?a=b", nil)
 
 常规模式下的Service自带负载均衡能力，访问时最终会被转发到一个具体的Pod上，但也存在一些场景（例如有状态应用）下并不需要负载均衡能力，而是希望能够获取Service下所有可用的Pod IP地址。
 
-这种需求可以通过创建Headless Service来实现，这种Service对象被访问时会直接把Endpoint存储信息暴露出来（通过DNS访问时，返回所有可用的Pod IP列表），让使用方可以自行决定如何进行请求转发。
+这种需求可以通过创建Headless Service来实现，这种Service不会在DNS上注册一个整体的域名（ClusterIP），而是按照一定的命名规范把Service下每个Pod的IP都注册至DNS中，让使用方可以根据需求获取任意Pod的IP。
+
+Headless Service通常是和StatefulSet绑定在一起使用的，在下文中我们会看到其实际的使用方式。
 
 ### Pod的存储
 
@@ -313,12 +315,136 @@ Pod、Volume、PV和PVC之间的关系可以用下图来表示：
 
 ### Workload
 
-#### ReplicaSet
+这一部分我们重点讨论两个原生的工作负载实现，分别是对应无状态应用的Deployment和对应有状态应用的StatefulSet。
+
+#### Deployment
+
+**ReplicaSet**
 
 #### StatefulSet
 
-### Auto Scaler
+StatefulSet是K8S中用于支持有状态应用的工作负载，相比于Deployment/ReplicaSet，StatefulSet最大的几个不同在于：
+
+1. StatefulSet管理的每个Pod都有唯一的文档/网络标识，并且按照数字规律生成，而不是像Deployment中那样名称和IP都是随机的
+2. StatefulSet中ReplicaSet的启停顺序是严格受控的，操作第N个Pod一定要等前N-1个执行完才可以
+3. 每个StatefulSet需要有一个对应的HeadlessService，存储和维护所有Pod的IP地址，DNS域名格式为`${podName}.${serviceName}`
+4. StatefulSet必须要使用PV存储作为Volume
+5. StatefulSet支持灰度发布升级（可以仅指定某几个Pod升级，而不是全局滚动升级），换句话说，StatefulSet并不是通过ReplicaSet来关联和控制Pod，而是直接操作具体的Pod本身
+
+StatefulSet本身是在Deployment的基础上改造而来，因此大多数底层实现和Deployment一致。
+我们在这里不具体讨论其实现的细节，而是以Redis Cluster作为一个例子来演示StatefulSet的典型使用方式和特性。
+
+假定我们希望通过StatefulSet在K8S集群中部署一个6节点的Redis Cluster，那么需要先创建一个Headless Service：
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+  labels:
+    app: redis # 匹配Pod的标签
+spec:
+  ports:
+  - name: redis-port
+    port: 6379
+  clusterIP: None # ClusterIP设置为None即表示为HeadlessService
+  selector:
+    app: redis
+    appCluster: redis-cluster
+```
+
+然后就可以创建对应的StatefulSet对象：
+
+```yaml
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: redis-app
+spec:
+  serviceName: "redis-service" # 对应的HeadlessService名称
+  replicas: 6 # 整体副本数量
+  template:
+    metadata:
+      labels:
+        app: redis
+        appCluster: redis-cluster
+    spec:
+      # 省略一些复杂配置属性...
+      containers:
+      - name: redis
+        image: "registry.cn-qingdao.aliyuncs.com/gold-faas/gold-redis:1.0"
+        command:
+          - "redis-server"
+        args:
+          - "/etc/redis/redis.conf"
+          - "--protected-mode"
+          - "no"
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+        ports:
+            - name: redis
+              containerPort: 6379
+              protocol: "TCP"
+            - name: cluster
+              containerPort: 16379
+              protocol: "TCP"
+        volumeMounts:
+          - name: "redis-conf"
+            mountPath: "/etc/redis"
+          - name: "redis-data"
+            mountPath: "/var/lib/redis"
+      volumes:
+      - name: "redis-conf"
+        configMap:
+          name: "redis-conf"
+          items:
+            - key: "redis.conf"
+              path: "redis.conf"
+      - name: "redis-data"
+        emptyDir: {}
+```
+
+### AutoScaler
+
+K8S相比于传统的集群管理工具，拥有一个非常有趣的特性，就是支持根据具体的资源使用情况**自动伸缩**工作负载的大小，这项能力可以在无状态负载中使用，被称为Auto Scaler。
+
+K8S的自动伸缩能力分为两种，一种是水平伸缩，即工作负载中每个Pod的规格不变，只是调整Pod的数量；还有一种是垂直伸缩，即工作负载中Pod的数量不变，但规格弹性变化（如CPU资源）。
+
+两种不同的自动伸缩能力对应在实现上就是两种不同的自动伸缩器对象，HPA（Horizontal Pod Autosacler）和VPA（Vertical Pod Autoscaler）。
 
 #### HPA
 
+HPA是目前来说使用最广泛的一种自动伸缩器，要使用HPA，必须先能够采集整个集群的负载指标（Metric），因此需要先引入一定的Metric采集能力（如influxDB、heapster等）才可以使用HPA。
+
+在实现上，HPA会通过定时的巡检（loop）来不断检查工作负载的指标，并根据下面的公式计算当前工作负载应该持有多少个实例，再对比当前工作负载实际持有的实例数量来决定是否要对工作负载进行伸缩。
+
+```text
+desiredReplicas = ceil[currentReplicas * ( currentMetricValue / desiredMetricValue )]
+```
+
+- desiredReplicas：最终计算得到的当前工作负载应该拥有的实例数量
+- currentReplicas：当前工作负载实际用用的实例数量
+- desiredMetricValue：设定的监控指标的期望值（比如CPU期望维持在50%利用率）
+- currentMetricValue：当前监控指标的实际值
+- ceil：向上取整
+
+我们可以通过`kubectl autoscale`来创建一个HPA，例如：
+
+```text
+kubectl autoscale deployment helloworld --cpu-percent=10 --min=1 --max=5
+```
+
+上述命令会给`helloworld`deployment创建一个HPA，期望的指标为CPU利用率10%，能够接收的伸缩范围是1～5个Pod，创建完成后可以通过`kubectl get hpa`看到对应的对象。
+
 #### VPA
+
+VPA目前的使用场景并不多，因此实现上也没有HPA成熟，因此这里我们仅介绍一下大致的概念。
+
+VPA的使用同样需要先向集群引入Metric采集能力，在实际实现上，有两种具体的伸缩模式：
+
+- create模式：创建一个新的、伸缩过规格的Pod实例替换原有的实例
+- in-place模式：在Pod不变的情况下，原地调整其资源限制
+
+当前阶段VPA主要还是采用create模式进行伸缩，in-place模式由于实现难度很高，还处于实验阶段中。
