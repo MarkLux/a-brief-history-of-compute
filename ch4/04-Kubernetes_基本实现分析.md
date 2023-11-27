@@ -319,7 +319,31 @@ Pod、Volume、PV和PVC之间的关系可以用下图来表示：
 
 #### Deployment
 
+Deployment本身是基于ReplicaSet的进一步封装，所以先来聊聊ReplicaSet在K8S中是一个什么样的概念。
+
 **ReplicaSet**
+
+ReplicaSet（副本集，简称RS）可以认为是一组数量固定的、满足筛选条件（labels）的Pod，ReplicaSet的三大构成元素是：
+
+- matchLabels：描述RS匹配标签的规则（例如 app = test-rs）
+- replicas：期望RS下持有的Pod实例数量
+- template：当集群内匹配标签的Pod不足时，创建新Pod的模板
+
+ReplicaSet的工作规则是：
+
+1. 检测当前集群中满足matchLabels的Pod实例有哪些
+2. 判断这些Pod实例是否满足声明的replicas数量，如果不足则用template创建新的Pod，如果过多则会删除一部分
+
+可以看出RS只对Pod数量和matchLabels敏感，而对Pod本身的内容是不关心的（template只是用于新建），
+所以即便是在创建RS前就已经存在的Pod，只要labels被RS所匹配，不论该Pod内的容器是否符合template标准，都会成为RS的一部分：
+
+![img_29.png](img_29.png)
+
+所有被RS匹配上的Pod都会被设置对应的ownerReference，这将影响K8S的垃圾回收机制，如果后续该RS被删除，所有ownerReference归属于该RS的Pod会被一并删除。
+
+在RS中，只能对replicas实例数进行更新，而不能对已经创建的Pod的内容（即容器镜像）进行更新，无法承载常规的应用发布回滚需求，于是便有了更进一步的Deployment对象。
+
+**Deployment的构成**
 
 #### StatefulSet
 
