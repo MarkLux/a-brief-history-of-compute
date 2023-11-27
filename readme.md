@@ -51,7 +51,7 @@
 
 - [04：Kubernetes - 基本实现分析](ch4/04-Kubernetes_基本实现分析.md)
 
-- [05：Kubernetes - 扩展机制与生态](ch4/05-Kubernetes_扩展机制与生态.md)
+- [05：Kubernetes - 运行机制与扩展](ch4/05-Kubernetes_运行机制与扩展.md)
 
 - 06：展望
 
