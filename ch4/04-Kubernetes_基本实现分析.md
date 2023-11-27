@@ -433,18 +433,19 @@ demo-deployment-7cc749f5dd   0         0         0       3d14h # 上一个版本
 
 StatefulSet是K8S中用于支持有状态应用的工作负载，相比于Deployment，StatefulSet最大的几个不同在于：
 
-1. StatefulSet管理的每个Pod都有唯一的文档/网络标识，并且按照数字规律生成，而不是像Deployment中那样名称和IP都是随机的
-2. StatefulSet中ReplicaSet的启停顺序是严格受控的，操作第N个Pod一定要等前N-1个执行完才可以
+1. StatefulSet管理的每个Pod都有唯一的标识，不论怎么调度都不会发生改变（即便是Pod更新重建，其ID也不会发生变化）
+2. StatefulSet中Pod的启停顺序是严格受控的，操作第N个Pod一定要等前N-1个执行完才可以
 3. 每个StatefulSet需要有一个对应的HeadlessService，存储和维护所有Pod的IP地址，DNS域名格式为`${podName}.${serviceName}`
-4. StatefulSet必须要使用PV存储作为Volume
-5. StatefulSet支持灰度发布升级（可以仅指定某几个Pod升级，而不是全局滚动升级），换句话说，StatefulSet并不是通过ReplicaSet来关联和控制Pod，而是直接操作具体的Pod本身
+4. StatefulSet支持灰度发布升级（可以仅指定某几个Pod升级，而不是全局滚动升级），换句话说，**StatefulSet并不是通过ReplicaSet来关联和控制Pod，而是直接操作具体的Pod本身**
 
-StatefulSet本身是在Deployment的基础上改造而来，因此大多数底层实现和Deployment一致。
-我们在这里不具体讨论其实现的细节，而是以Redis Cluster作为一个例子来演示StatefulSet的典型使用方式和特性。
+除此之外，StatefulSet通常需要配合PV使用，来保障Pod存储的持久性，这样即便Pod本身被更新和重建，其存储的数据也可以被继任者复用，从而对外实现Pod（逻辑、存储、标识）始终未发生改变的效果。
 
-假定我们希望通过StatefulSet在K8S集群中部署一个6节点的Redis Cluster，那么需要先创建一个Headless Service：
+**例子**
+
+我们先给出一个简单的StatefulSet例子，认识StatefulSet的基本构成：
 
 ```yaml
+# 创建StatefulSet必须要先创建一个Headless Service对象
 apiVersion: v1
 kind: Service
 metadata:
@@ -459,17 +460,13 @@ spec:
   selector:
     app: redis
     appCluster: redis-cluster
-```
-
-然后就可以创建对应的StatefulSet对象：
-
-```yaml
+---
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
   name: redis-app
 spec:
-  serviceName: "redis-service" # 对应的HeadlessService名称
+  serviceName: "redis-service" # 对应上面创建的HeadlessService名称
   replicas: 6 # 整体副本数量
   template:
     metadata:
@@ -477,42 +474,57 @@ spec:
         app: redis
         appCluster: redis-cluster
     spec:
-      # 省略一些复杂配置属性...
+      # 省略一些复杂配置属性
       containers:
-      - name: redis
-        image: "registry.cn-qingdao.aliyuncs.com/gold-faas/gold-redis:1.0"
-        command:
-          - "redis-server"
-        args:
-          - "/etc/redis/redis.conf"
-          - "--protected-mode"
-          - "no"
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "100Mi"
-        ports:
-            - name: redis
-              containerPort: 6379
-              protocol: "TCP"
-            - name: cluster
-              containerPort: 16379
-              protocol: "TCP"
-        volumeMounts:
-          - name: "redis-conf"
-            mountPath: "/etc/redis"
-          - name: "redis-data"
-            mountPath: "/var/lib/redis"
+        - name: redis
+          image: "registry.cn-qingdao.aliyuncs.com/gold-faas/gold-redis:1.0"
+          command:
+            - "redis-server"
       volumes:
-      - name: "redis-conf"
-        configMap:
-          name: "redis-conf"
-          items:
-            - key: "redis.conf"
-              path: "redis.conf"
-      - name: "redis-data"
-        emptyDir: {}
+        - name: "redis-conf"
+          configMap:
+            name: "redis-conf"
+            items:
+              - key: "redis.conf"
+                path: "redis.conf"
+        - name: "redis-data"
+          emptyDir: {}
 ```
+
+将上述配置声明应用到K8S集群后，将会创建出`redis-app-0`～`redis-app-5`一共6个Pod，并且这些Pod可以通过独立的DNS规则访问。
+
+例如想要访问3号Pod的Redis服务，可以通过`redis-app-3.redis-service`在DNS中找到对应Pod的IP，并通过6379端口访问服务。
+
+**伸缩机制**
+
+StatefulSet被创建后，会不断循环检测集群中其所属的Pod（和RS一样，根据matchLabel匹配），并将这些Pod按照名称序号排序成一个数组。
+
+接着会根据当前StatefulSet设定的replicas数量判断该数组是否需要做出调整，如果数组中的Pod数量大于replicas，就从尾部截断删除多余的Pod，如果数组中的Pod数量小于replicas，则根据模板创建新的Pod实例填充至数组中，被创建出的Pod序号始终是连续的。
+
+除此之外，如果数组中某些序号对应的Pod并不实际存在（对应下面更新机制会讲），会立刻使用最新版本的template创建一个Pod实例填充该位置。
+
+![img_32.png](img_32.png)
+
+不论是删除还是新增Pod，StatefulSet都会严格按照顺序单调执行，比如在上图的例子中，缩容时会按倒序先停止删除pod-4，再停止删除pod-3；扩容时会先创建运行pod-5，再创建pod-6。当前一个Pod的操作没有完成时，下一个Pod的操作永远不会开始。
+
+**更新机制**
+
+StatefulSet对于Pod的更新一定发生在伸缩调整之后，即只有当StatefulSet按照上面的流程伸缩到实际可用的Pod数量和replicas声明的一致后，才会开始进行Pod的更新。
+
+对Pod执行更新的前提是能够区分出一个Pod属于哪个版本，和Deployment不一样的是，由于没有ReplicaSet这个中间层，StatefulSet的版本控制记录的就是StatefulSet对象本身的信息，一个版本称为一个Revision，被对应版本StatefulSet创建出的Pod status中会包含对应的Revision ID（一个hash），可以根据这个来判断Pod属于哪个版本。
+
+> 有关Revision和Controller等K8S核心运行逻辑的概念说明，会在下一节中展开聊聊，这里只需要把Revision当作是对象的版本号和快照就行
+
+在Revision的基础上，StatefulSet对Pod的更新机制是，从数组尾部开始，依次删除不属于当前版本的Pod。删除后整个StatefulSet的实例数量会发生变化，再次触发伸缩逻辑，此时会扩容补充新版本的Pod到对应被删除的位置，如此便实现了Pod的有序更新。
+
+![img_33.png](img_33.png)
+
+> StatefulSet还支持分批灰度的滚动更新，即可以只更新一部分的Pod并维持该状态，而不是像Deployment的滚动更新那样一定会更新完所有的Pod才能停止
+> 除此之外，还可以通过OnDelete更新策略只更新特定序号的Pod
+
+**StatefulSet与PVC**
+
+StatefulSet下Pod的更新、删除都不会影响Pod声明的PVC资源，即便一个Pod被删除甚至StatefulSet本身被删除，在其存活过程中所使用的PVC资源都会依旧保持存留，以便后续可以恢复使用。
 
 ### AutoScaler
 
