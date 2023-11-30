@@ -105,15 +105,116 @@ kube-controller-manager            1/1     Running            1 (133d ago)      
 
 ![img_39.png](img_39.png)
 
--- D4
-
 ### Operator模式
+
+K8S原生的工作负载已经可以涵盖大多数的部署运维需求，但实际的业务应用环境往往是非常复杂的，不可能有标准的解决方案，因此K8S必须要支持自定义扩展，当前最常见的一种扩展机制就是Operator模式。
+
+Operator是一种利用K8S的扩展机制来实现自定义对象运维的模式，通常包含三个组成部分：
+
+- CRD（Custom Resource Definition） - 自定义的对象结构
+- Webhook - 对CRD对象的API请求进行校验和调整
+- （Custom）Controller - 自定义的Controller，监听对应CRD对象的变更，并实现对应的Reconcile逻辑
+
+![img_40.png](img_40.png)
 
 #### CRD
 
+在介绍CRD之前，需要先了解K8S中对于对象和类型的一些基本知识
+
+**Kind & Resource**
+
+Kind（种类）指的是一个API对象的类型，例如Pod、Service、Deployment等；Resource则指代K8S中的一类对象（如pods，services），这两者的概念比较绕，但是不用过多纠结，从实际使用上来讲理解以下几点即可：
+
+1. Kind是比Resource更顶级的一个概念，一个Kind下可以有多种Resource，但是一个Resource只能属于一种Kind，从这个角度上来讲也可以认为Resource是一种"子Kind"，但90%以上的情况下Kind和Resource都是1：1对应的
+2. Kind通常体现于yaml文件中的Kind字段，最终映射到一个Go语言中的Type，Resource则体现于K8S的RestfulAPI（后面GVK和GVR部分会有具体例子）
+
+可以通过`kubectl api-resources`来查看所有的Resource以及它们和Kind之间的关系：
+
+![img_41.png](img_41.png)
+
+**Group Version**
+
+K8S中的对象定位分组，类似于Java中的package概念，在yaml文件中表现为`apiVersion`字段，例如：
+
+```
+batch.tutorial.kubebuilder.io/v1
+```
+
+有了Group Version就可以构建出Kind和Resource的唯一坐标，分别称为GVK（Group Version Kind）和GVR（Group Version Resource）
+
+- 通过GVK可以在K8S内唯一确定一个Kind，例如`apps/v1 Pod`
+- 通过GVR可以在K8S内唯一确定一种Resource，例如`GET /api/v1/namespaces/{namespace}/pods`
+
+GVR和GVK之间可以相互转换，通常以GVR形式请求Restful API后，该请求在实际代码中会被传化成一个对应GVK的Go对象（结构体）。
+
+**Scheme**
+
+Scheme用于建设Kinds和go types的映射，也就是说给定Go type就知道他的GVK，给定GVK就知道他的Go type，作用基本相当于一个双向转换器
+
+**CRD**
+
+介绍完上面的概念就可以理解CRD的构成了，一个完整的CRD对应了K8S中一个GVK、一个GVR和一个Scheme，在代码层面体现为一个GoType，如：
+
+```go
+type CloneSet struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   CloneSetSpec   `json:"spec,omitempty"`
+	Status CloneSetStatus `json:"status,omitempty"`
+}
+```
+
+在实际使用层面来说，就是一种自定义的yaml文件:
+
+```yaml
+apiVersion: apps.kruise.io/v1alpha1
+kind: CloneSet
+metadata:
+  labels:
+    app: demo-server
+  name: demo-server
+spec:
+  updateStrategy:
+    type: InPlaceIfPossible
+    partition: 0
+  replicas: 2
+  selector:
+    matchLabels:
+      app: demo-server
+  template:
+    metadata:
+      labels:
+        app: demo-server
+    spec:
+      containers:
+      - name: demo-server
+        image: registry.cn-qingdao.aliyuncs.com/marklux/demo-server:1.3
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+```
+
 #### Webhook
 
+Webhook作用于K8S的API Server上，可以用于拦截指定类型对象的Restful请求，并通过回调的方式来进行干预，
+通过给CRD注册一个Webhook，我们就可以对K8S中这类对象的所有变更（创建、更新、删除）增加额外的逻辑，最常见的作用是做转换（mutate）和校验（validation）。
+
 **mutate**
+
+Mutate Webhook允许用户在API Server的请求通过基础校验后，拦截请求的对象，并几乎允许用户对该对象进行任意的修改，因此可以实现非常多的功能。
+
+比如拦截Pod对象的所有创建请求，给所有的Pod对象都注入一个额外的Container；拦截Deployment对象的删除请求，阻止某些核心Deployment被删除。
+
+**validation**
+
+Validation Webhook主要用于做对象的字段检查校验，在一个对象通过API Server的对象schema基础校验后，就会调用关联该对象的Validation Webhook做进一步的字段合法性校验。
+
+在Validation Webhook中通常做一些业务性质的字段校验，比如数字取值的上下限、可支持的类型枚举等，如果没有通过Validation Webhook的校验，请求就会被拒绝并报错。
+
+两种Webhook的执行时机如下图所示：
+
+![img_42.png](img_42.png)
 
 #### Custom Controller
 
