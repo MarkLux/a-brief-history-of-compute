@@ -216,9 +216,11 @@ Validation Webhook主要用于做对象的字段检查校验，在一个对象�
 
 ![img_42.png](img_42.png)
 
-#### Custom Controller
+#### Controller
 
--- D4
+为了能够让自定义对象能够在K8S内真正"运转"起来，还需要编写Controller，实现对应的Reconcile逻辑并部署到集群中。
+
+> 通常需要一定的脚手架工具来协助开发Controller，而不是直接基于原生client
 
 ### KubeBuilder
 
