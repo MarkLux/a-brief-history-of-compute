@@ -10,12 +10,12 @@ Controller是K8S中实现"自动化"运维的核心组件，通常情况下，K8
 
 上面讲了，Controller的核心逻辑就是不断检查对象的实际状态，并对比对象的期望状态进行调整，这个永不间断的循环过程被称为**Reconcile（调谐）**。
 
-![img_34.png](img_34.png)
+![img_34.png](img/img_34.png)
 
 当然，Controller不可能真的以死循环的方式去运行，通常在实际实现上Controller会监听一类对象的变更（并且可以指定一定的过滤条件，比如只监听对象的Update事件），
 当对象本身发生满足要求的变更时，会被抽象成一个请求丢到一个工作队列中，再通知Controller的Reconcile逻辑消费该队列中的请求，这样就可以让Reconcile"按需触发"。
 
-![img_37.png](img_37.png)
+![img_37.png](img/img_37.png)
 
 需要注意的是，这个请求本身的结构非常简单，只包含对象的命名空间和名称，不包含对象的实际信息和触发对象变更的事件：
 
@@ -44,7 +44,7 @@ type Request struct {
 - ProcessingSet - 用于存放正在被Reconcile处理的对象
 - Queue - 存放正在被排队等待被处理的对象
 
-![img_38.png](img_38.png)
+![img_38.png](img/img_38.png)
 
 整个队列的运行逻辑是（结合上面的图例a，假设有4个请求达到队列，其中有两个请求都关联了对象A）：
 
@@ -72,7 +72,7 @@ type Request struct {
 在Reconcile逻辑的实际实现中，往往需要和K8S的API进行交互，比如获取对象的实际和期望状态、对指定对象进行更新等；这时候就需要在Controller代码中和K8S的API Server进行通信，
 K8S官方提供了一套基于go语言的client SDK（本质上就是封装了API Server的Restful API调用），称为client-go，Controller的实现者可以通过这个client来与K8S集群的API进行交互。
 
-![img_35.png](img_35.png)
+![img_35.png](img/img_35.png)
 
 #### Informer与List-Watch
 
@@ -85,7 +85,7 @@ K8S官方提供了一套基于go语言的client SDK（本质上就是封装了AP
 
 Informer的工作原理是List-Watch机制，即在创建时，先通过client调用对象的List接口拿到一类对象的所有数据缓存到本地，然后通过Watch接口监听该类对象后续的所有变更，当发生变更时立刻同步变更本地缓存，如此便可保障Informer缓存中的对象数据和实际的对象数据始终保持一致。
 
-![img_36.png](img_36.png)
+![img_36.png](img/img_36.png)
 
 #### Controller Manager
 
@@ -103,7 +103,7 @@ kube-controller-manager            1/1     Running            1 (133d ago)      
 
 最终一个controller manager会以go routine的方式运行多个实际的Controller，下文的扩展机制中会看到自定义的Controller也是以这样的方式来运行的。
 
-![img_39.png](img_39.png)
+![img_39.png](img/img_39.png)
 
 ### Operator模式
 
@@ -115,7 +115,7 @@ Operator是一种利用K8S的扩展机制来实现自定义对象运维的模式
 - Webhook - 对CRD对象的API请求进行校验和调整
 - （Custom）Controller - 自定义的Controller，监听对应CRD对象的变更，并实现对应的Reconcile逻辑
 
-![img_40.png](img_40.png)
+![img_40.png](img/img_40.png)
 
 #### CRD
 
@@ -130,7 +130,7 @@ Kind（种类）指的是一个API对象的类型，例如Pod、Service、Deploy
 
 可以通过`kubectl api-resources`来查看所有的Resource以及它们和Kind之间的关系：
 
-![img_41.png](img_41.png)
+![img_41.png](img/img_41.png)
 
 **Group Version**
 
@@ -214,7 +214,7 @@ Validation Webhook主要用于做对象的字段检查校验，在一个对象�
 
 两种Webhook的执行时机如下图所示：
 
-![img_42.png](img_42.png)
+![img_42.png](img/img_42.png)
 
 #### Controller
 
@@ -292,7 +292,7 @@ OpenKruise提供的这些扩展能力，都是基于Kubebuilder框架和Operator
 
 Sidecar模式在K8S问世后逐渐兴起，由于K8S本身优秀的Pod抽象，使得Sidecar容器能够和应用容器更加无缝自然的集成，通常在实现上体现为一个Pod中同时包含业务容器和Sidecar容器。以RPC中间件为例，Sidecar模式下的RPC通信变成了Sidecar容器之间的互相通信，业务的App容器则分别和自己的Sidecar容器通信来发起RPC请求/拿到RPC结果。
 
-![img_43.png](img_43.png)
+![img_43.png](img/img_43.png)
 
 #### SidecarSet的设计目标
 
@@ -410,7 +410,7 @@ type SidecarSetStatus struct {
 
 在实际Reconcile循环中就是借助这几个值来判断SidecarSet本身是否达到了用户的期望状态，几个值的具体含义如下图所示：
 
-![img_44.png](img_44.png)
+![img_44.png](img/img_44.png)
 
 #### SidecarSet Hash
 
@@ -420,7 +420,7 @@ SidecarSet被生成或更新后，会生成一个唯一的Hash（通过mutate we
 
 对于所有被注入的Pod来说，SidecarSet会在注入/更新完成后在该Pod的Annotation中写入/更新这个唯一Hash，此后只需要对比Pod Annotation中的SidecarSet Hash和SidecarSet当前的唯一Hash是否一致，就可以知道Pod是否更新到最新的SidecarSet了。
 
-![img_45.png](img_45.png)
+![img_45.png](img/img_45.png)
 
 > 除了SidecarSet Hash之外，还会存在一个SidecarSet Without-Image Hash，这个Hash不同的地方在于计算时忽略了Container中的Image字段，因此可以用于校验SidecarSet的变更"是否只包含镜像"字段。
 > 该Hash会在SidecarSet的原地更新功能中使用到。
@@ -429,7 +429,7 @@ SidecarSet被生成或更新后，会生成一个唯一的Hash（通过mutate we
 
 SidecarSet的注入发生在Pod的创建阶段，通过注册Pod Mutate WebHook来实现，注入流程的核心逻辑大致如下图所示：
 
-![img_46.png](img_46.png)
+![img_46.png](img/img_46.png)
 
 简要来说就是在任意一个Pod创建后，通过Mutate WebHook拦截，遍历集群中所有的SidecarSet对象，如果该Pod匹配上任何一个SidecarSet对象，就执行注入操作。
 
@@ -442,3 +442,62 @@ SidecarSet的注入发生在Pod的创建阶段，通过注册Pod Mutate WebHook�
 提供这一机制的主要目的在于：如果在SidecarSet灰度更新的过程中有Pod新增（或被重建）就会被注入最新版本的SidecarSet，这可能会干扰灰度更新的流程并引发不可预知的结果。
 
 #### Reconcile逻辑
+
+SidecarSet的Controller的核心逻辑是，当SidecarSet对象发生变更时，需要调整所有被注入该SidecarSet的Pod，使得Pod中对应的Sidecar Container也被同步更新至对应版本。
+
+**原地更新与重建更新**
+
+当SidecarSet发生更新时，需要更新Pod中对应的Sidecar Container，默认情况下OpenKruise会先尝试进行原地更新，即不重启Pod和Pod内的其他容器，仅替换和重启对应的Sidecar容器，这被称为原地更新。
+
+但是原地更新存在一个前提，那就是Sidecar容器的修改范围不能超出Image字段，也就是说如果某个Sidecar容器的定义中有超出Image字段的修改，那么就无法进行原地升级（来自K8S本身对Container重启更新的限制）。
+
+如果出现了这种无法原地升级的情况，就只能跳过不更新该Pod，等待该Pod重建或被替换时再更新对应的Sidecar容器，即重建更新，这步判断是通过SidecarSet Without-Image Hash的对比来实现的。
+
+**更新策略**
+
+SidecarSet提供了丰富的更新策略，包括基础的滚动更新（用MaxUnavailable控制）和分批发布，除此之外还支持通过Selector指定更新一部分的Pod，从而实现金丝雀发布。
+
+**打散策略**
+
+在生产环境下一个SidecarSet可能会被注入到大量的Pod中，这些Pod可能分属于诸多不同的Workload，即便是通过滚动/分批更新机制来进行更新，某一个具体Workload下的Pod的更新也可能是不平均的。
+
+为了避免一些小量级Workload对应的Pod在某一批次中被一次性全部更新，需要提供一定的打散策略来保证这些Pod在SidecarSet对应的所有Pod中被更新的顺序是均匀的，我们可以参照下面的图示来理解这个打散策略的具体含义：
+
+![img_47.png](img/img_47.png)
+
+在SidecarSet中允许用户定义将符合某些标签的Pod进行打散，具体在实现上就是将符合这些标签的Pod的发布顺序进行平均固定，以上图为例，可以通过label选中Workload 4对应的Pod做打散，那么不论更新方式是什么，都会保证这三个被选中的Pod一定在第1位、第62位和第123位被更新，再结合适当的分批策略就可以实现较为平均稳定的打散更新了。
+
+**热更新机制**
+
+在常规更新模式下，Pod中要被更新的Sidecar容器会被重建，这个过程中该Sidecar容器实际是不可用的，但对于一些非常重要的Sidecar容器（比如监控指标采集）来说，业务上希望在更新过程中Sidecar容器始终是可用的。
+
+为此OpenKruise还提供了Sidecar容器的热升级特性，这个特性实际上是通过交替使用两个容器来作为Sidecar实现的，具体原理和使用方式较为复杂，在此不做赘述。
+
+**完整Reconcile流程**
+
+铺垫完上述背景知识后，我们就可以来讲解一下SidecarSet对应的完整Reconcile流程了。
+
+首先需要注意的是，由于SidecarSet可能会影响所有的Pod，以及在整个Reconcile过程中需要监听Pod更新的状态，所以SidecarSet的Reconcile被触发的条件有两种：
+
+1. SidecarSet对象变更（增、删、改），触发该对象的Reconcile
+2. 被注入了SidecarSet的Pod对象变更（增、删、改），触发对应SidecarSet对象的Reconcile
+
+下面是对于一个具体的SidecarSet对象变更，整个Reconcile的具体步骤：
+
+1. 获取所有被注入该SidecarSet的对象（MatchedPods，通过Selector匹配List，然后进一步通过Annotation判断是否被注入）
+2. 注册新的Controller Revision历史版本（后续可用于版本回滚）
+3. 根据所有MatchedPods的信息，计算并更新SidecarSet Status（Updated Pods、Ready Pods、UpdatedReady Pods）
+4. 处理热相关相关逻辑（略过不展开）
+5. 如果SidecarSet处于暂停/不更新状态、或所有MatchedPods的SidecarSet都已经更新到最新版本（对比hash），那么Reconcile结束
+6. 否则说明还需要对MatchedPods进行更新，这里会计算本次Reconcile需要更新哪些Pods，流程又分为三步
+   - 先过滤MatchedPods中所有Updated的Pods，以及不可原地更新的Pods（修改了除镜像以外的字段）
+   - 根据Pods状态和打散规则对剩余的Pods进行排序，形成一个排序Pods数组
+   - 根据滚动更新策略和批次来从排序Pods数组中挑选出符合策略的部分（通常是一个子数组），即为本次Reconcile需要更新的Pods
+7. 对于上一步选出的Pods，执行Update操作，包括：
+   - Pod Spec中Containers、Env、Volume的更新
+   - Pod Metadata中Annotation的更新
+8. 一轮Reconcile结束
+
+最后可以用下面的流程图来理解整个Reconcile流程：
+
+![img_48.png](img/img_48.png)

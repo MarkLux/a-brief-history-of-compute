@@ -18,7 +18,7 @@ Pod在K8S中的具体存在形式是一系列高度关联的容器的组合，�
 
 即，Pod内的所有容器都会加入Pod内pause容器的network namespace，从而实现网络的互通。pause容器会在Pod创建时就被创建出来，并在整个Pod生命周期都持续保持存活，换个角度讲，**Pod本身其实也就是一组通过pause容器联系在一起的容器**。
 
-![img_23.png](img_23.png)
+![img_23.png](img/img_23.png)
 
 下面就是pause容器内唯一进程对应的代码，可以看出其本身并没有任何逻辑，只是起到一个逻辑性的作用（在启动后就会处于pause状态，这也是为什么称之为pause容器）
 
@@ -142,7 +142,7 @@ Endpoint是K8S的一个内置对象，其作用是维护一组Pod在集群内的
 
 Endpoint在Service创建时被同步创建，并存储满足该Service对象中selector规则的所有Pod的IP：
 
-![img_24.png](img_24.png)
+![img_24.png](img/img_24.png)
 
 由于Pod的IP不是固定的，Pod本身的生命周期也是不固定的，因此EndPoint是一个动态的对象（起到了类似RPC服务中注册中心的作用）。
 
@@ -159,7 +159,7 @@ kube-proxy本身的实现非常复杂，这里我们主要说一下Service是如
 在此模式下，每当一个Service被创建，节点上的kube-proxy就会在该节点上同步创建一个iptables路由规则和一个go routine，其中iptables规则用于将服务的流量转发给kube-proxy进程， 
 go routine则用于在kube-proxy和对应Pod之间搬运数据：
 
-![img_25.png](img_25.png)
+![img_25.png](img/img_25.png)
 
 由于该模式下数据的传输依靠一个个运行在用户态的go routine，所以被称为用户空间模式。
 
@@ -167,7 +167,7 @@ go routine则用于在kube-proxy和对应Pod之间搬运数据：
 
 在此模式下，节点上的数据转发完全依靠iptables规则，kube-proxy通过监听Endpoint和Service对象的变更，不停地动态建立/删除Pod和具体端口之间的iptables规则。
 
-![img_26.png](img_26.png)
+![img_26.png](img/img_26.png)
 
 该模式下，所有的数据转发全部在内核态完成。
 
@@ -176,7 +176,7 @@ go routine则用于在kube-proxy和对应Pod之间搬运数据：
 在iptables模式下，如果集群中Service数量变得非常庞大时，会有非常严重的性能问题（由于iptables规则过多，路由匹配和新增规则动作都会变得异常缓慢）。
 为了优化这个问题，K8S在1.9版本之后又引入了ipvs，一个同样运行在内核态的流量转发程序，但和iptables不同的是，它使用了哈希表作为底层数据结构，大大增加了匹配和新增规则的速度。
 
-![img_27.png](img_27.png)
+![img_27.png](img/img_27.png)
 
 #### DNS形式的服务发现
 
@@ -311,7 +311,7 @@ local-pvc   Bound     local-pv  50Mi       RWO,RWX                       24s
 
 Pod、Volume、PV和PVC之间的关系可以用下图来表示：
 
-![img_28.png](img_28.png)
+![img_28.png](img/img_28.png)
 
 ### Workload
 
@@ -362,7 +362,7 @@ ReplicaSet的工作规则是：
 可以看出RS只对Pod数量和matchLabels敏感，而对Pod本身的内容是不关心的（template只是用于新建），
 所以即便是在创建RS前就已经存在的Pod，只要labels被RS所匹配，不论该Pod内的容器是否符合template标准，都会成为RS的一部分：
 
-![img_29.png](img_29.png)
+![img_29.png](img/img_29.png)
 
 所有被RS匹配上的Pod都会被设置对应的ownerReference，这将影响K8S的垃圾回收机制，如果后续该RS被删除，所有ownerReference归属于该RS的Pod会被一并删除。
 
@@ -401,7 +401,7 @@ spec:
 
 Deployment、ReplicaSet和Pod之间的关系如下图所示：
 
-![img_30.png](img_30.png)
+![img_30.png](img/img_30.png)
 
 **Deployment更新的原理**
 
@@ -413,7 +413,7 @@ Deployment相比与ReplicaSet最大的功能特性就是支持Pod的滚动更新
 2. 调整原有的RS对象的replicas实例数量，逐步缩容至0（此时，RS会回收旧版本的Pod）
 3. 最终新的RS对象成为Deployment的当前版本（current revision），旧的RS对象不会被删除，只是被当成历史版本存储
 
-![img_31.png](img_31.png)
+![img_31.png](img/img_31.png)
 
 当我们完成一次Deployment发布之后，通过`kubectl get rs`就可以看到历史和当前两个版本的RS对象，他们控制的实例数量分别是0和目标值：
 
@@ -503,7 +503,7 @@ StatefulSet被创建后，会不断循环检测集群中其所属的Pod（和RS�
 
 除此之外，如果数组中某些序号对应的Pod并不实际存在（对应下面更新机制会讲），会立刻使用最新版本的template创建一个Pod实例填充该位置。
 
-![img_32.png](img_32.png)
+![img_32.png](img/img_32.png)
 
 不论是删除还是新增Pod，StatefulSet都会严格按照顺序单调执行，比如在上图的例子中，缩容时会按倒序先停止删除pod-4，再停止删除pod-3；扩容时会先创建运行pod-5，再创建pod-6。当前一个Pod的操作没有完成时，下一个Pod的操作永远不会开始。
 
@@ -517,7 +517,7 @@ StatefulSet对于Pod的更新一定发生在伸缩调整之后，即只有当Sta
 
 在Revision的基础上，StatefulSet对Pod的更新机制是，从数组尾部开始，依次删除不属于当前版本的Pod。删除后整个StatefulSet的实例数量会发生变化，再次触发伸缩逻辑，此时会扩容补充新版本的Pod到对应被删除的位置，如此便实现了Pod的有序更新。
 
-![img_33.png](img_33.png)
+![img_33.png](img/img_33.png)
 
 > StatefulSet还支持分批灰度的滚动更新，即可以只更新一部分的Pod并维持该状态，而不是像Deployment的滚动更新那样一定会更新完所有的Pod才能停止
 > 除此之外，还可以通过OnDelete更新策略只更新特定序号的Pod
