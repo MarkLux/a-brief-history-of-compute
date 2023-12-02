@@ -305,11 +305,116 @@ Sidecar是一种非常有用的架构模式，但在实际生产的使用中，S
 
 这些也正是OpenKruise SidecarSet提供的核心能力，通过SidecarSet CRD对象，使用者可以对Sidecar容器进行统一的注入和管理，极大地降低了使用和运维Sidecar容器的成本。
 
+SidecarSet的具体说明和使用方式可参考[官方文档](https://openkruise.io/zh/docs/user-manuals/sidecarset)，下面的篇幅主要聊聊其具体实现思路
+
 #### 对象设计
+
+SidecarSet的基础定义和大部分的K8S对象一样，主要包括Spec和Status两部分
+
+```go
+// SidecarSet is the Schema for the sidecarsets API
+type SidecarSet struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   SidecarSetSpec   `json:"spec,omitempty"`
+	Status SidecarSetStatus `json:"status,omitempty"`
+}
+```
 
 **spec**
 
+spec用于定义SidecarSet的期望状态（声明式API），也是上层使用者直接感知的部分：
+
+```go
+// SidecarSetSpec defines the desired state of SidecarSet
+type SidecarSetSpec struct {
+	// 【要注入哪些Pod】用于圈选可注入Pod的LabelSelector
+	Selector *metav1.LabelSelector `json:"selector,omitempty"`
+
+	// 声明作用的namespace（如果不声明，则作用于所有namespace）
+	Namespace string `json:"namespace,omitempty"`
+
+	// 同上，但是可匹配多个namespace
+	NamespaceSelector *metav1.LabelSelector `json:"namespaceSelector,omitempty"`
+
+	// 【要向Pod注入哪些Init Containers】要注入的InitContainers
+	InitContainers []SidecarContainer `json:"initContainers,omitempty"`
+
+	// 【要想Pod注入哪些Containers】要注入的Containers
+	Containers []SidecarContainer `json:"containers,omitempty"`
+
+	// 声明Sidecar Containers使用的存储卷
+	Volumes []corev1.Volume `json:"volumes,omitempty"`
+
+	// 【更新行为】Sidecar容器更新策略
+	UpdateStrategy SidecarSetUpdateStrategy `json:"updateStrategy,omitempty"`
+
+	// 【注入行为】Sidecar容器注入策略
+	InjectionStrategy SidecarSetInjectionStrategy `json:"injectionStrategy,omitempty"`
+
+	// 拉取容器镜像的凭证
+	ImagePullSecrets []corev1.LocalObjectReference `json:"imagePullSecrets,omitempty"`
+
+	// RevisionHistoryLimit indicates the maximum quantity of stored revisions about the SidecarSet.
+	// default value is 10
+	RevisionHistoryLimit *int32 `json:"revisionHistoryLimit,omitempty"`
+
+	// 用于支持对Pod元信息进行注入修改的诉求
+	PatchPodMetadata []SidecarSetPatchPodMetadata `json:"patchPodMetadata,omitempty"`
+}
+```
+
+我们总结一下SidecarSet Spec中定义的核心字段，主要包括以下几个方面
+
+- 要管理的Sidecar容器有哪些（`Containers`和`InitContainers`）：一个SidecarSet可以管理多个Sidecar容器，并且由于K8S在Pod内做了Init容器和普通容器的区分，这里也对应了两个字段
+- 要注入的Pod有哪些（`Selector`）：通过K8S label selector机制来描述
+- 注入策略（`InjectStrategy`）：Sidecar容器注入Pod时的行为控制
+- 更新策略（`UpdateStrategy`）：SidecarSet中管理的Sidecar容器如何进行更新
+
 **status**
+
+status是SidecarSet对象在运行时期间存储核心数据的结构，也是下层实现者在实现Reconcile时所感知的部分：
+
+```go
+// SidecarSetStatus defines the observed state of SidecarSet
+type SidecarSetStatus struct {
+	// observedGeneration is the most recent generation observed for this SidecarSet. It corresponds to the
+	// SidecarSet's generation, which is updated on mutation by the API Server.
+	// 用于Controller中区分迭代次数
+	ObservedGeneration int64 `json:"observedGeneration,omitempty"`
+
+	// 已完成注入的Pod数量
+	MatchedPods int32 `json:"matchedPods"`
+
+	// match的Pod中，有多少个Pod已经更新到最新版本的sidecarset
+	UpdatedPods int32 `json:"updatedPods"`
+
+	// 处于Ready状态的Pod数量
+	ReadyPods int32 `json:"readyPods"`
+
+	// 处于Ready状态且更新到最新版本的Pod数量
+	UpdatedReadyPods int32 `json:"updatedReadyPods,omitempty"`
+
+	// SidecarSet最新的Controller Revision hash
+	LatestRevision string `json:"latestRevision,omitempty"`
+
+	// CollisionCount is the count of hash collisions for the SidecarSet. The SidecarSet controller
+	// uses this field as a collision avoidance mechanism when it needs to create the name for the
+	// newest ControllerRevision.
+	CollisionCount *int32 `json:"collisionCount,omitempty"`
+}
+```
+
+除去用于记录对象版本的一些字段外，Status中最重要的是维护了Sidecar容器和目标Pod之间的状态，即`MatchedPod`，`UpdatedPod`，`ReadyPods`和`UpdatedReadyPods`四个字段。
+
+在实际Reconcile循环中就是借助这几个值来判断SidecarSet本身是否达到了用户的期望状态，几个值的具体含义如下图所示：
+
+![img_44.png](img_44.png)
+
+#### 唯一性Hash
+
+由于要判断
 
 #### 注入能力实现
 
