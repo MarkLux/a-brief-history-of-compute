@@ -224,8 +224,93 @@ Validation Webhook主要用于做对象的字段检查校验，在一个对象�
 
 ### KubeBuilder
 
--- D5
+KubeBuilder是一套用于辅助开发人员实现K8S Operator模式的框架，它提供了以下功能：
+
+- 生成CRD的Yaml定义，协助开发者向K8S注册CRD Kind和Resource
+- 生成Controller代码脚手架，开发者只需要实现Reconcile循环逻辑即可
+- 提供Controller的runtime框架，包括Informer缓存实现和基础镜像等
+- 提供WebHook代码脚手架，协助开发者实现Validation或Mutate Webhook，并注册至K8S
+
+下面是一个通过KubeBuilder实现Operator模式的简单过程示范（完整例子代码可见[GITHUB](https://github.com/MarkLux/k8s-operator-demo)）
+
+1. 初始化代码工程
+
+    ```
+    kubebuilder init --domain marklux.cn --repo marklux.cn/k8s-operator-demo
+    ```
+
+2. 创建API（CRD的GVK）
+
+    ```
+    kubebuilder create api --group batch --version v1 --kind CronJob
+    ```
+
+3. 生成CRD Yaml文件（执行`make manifest`)
+
+    ```yaml
+    apiVersion: apiextensions.k8s.io/v1
+    kind: CustomResourceDefinition
+    metadata:
+      annotations:
+        controller-gen.kubebuilder.io/version: v0.11.3
+      creationTimestamp: null
+      name: cronjobs.batch.marklux.cn
+    spec:
+      group: batch.marklux.cn
+      names:
+        kind: CronJob
+        listKind: CronJobList
+        plural: cronjobs
+        singular: cronjob
+        scope: Namespaced
+      versions:
+        # 省略 schema
+    ```
+4. 在上面创建好的工程结构中，实现Controller文件的Reconcile逻辑
+5. 将CRD Yaml apply到K8S集群中
+6. 将Controller打包成镜像，部署到K8S集群中，创建对应的Deployment（通过`make docker-build`和`make deploy`)
+7. （可选）为对应的CRD创建Webhook并集成至K8S中
 
 ### 实例：OpenKruise SidecarSet
 
--- D6/D7
+最后我们来通过一些更加实际的例子来理解Operator模式是如何实现对K8S功能的扩展的，
+本节以开源项目[OpenKruise](https://openkruise.io)中的SidecarSet功能为例进行说明。
+
+#### OpenKruise项目介绍
+
+首先简单介绍一下OpenKruise，这是一个由阿里云主导开源的CNCF项目（孵化中），其主要功能是为K8S提供一些扩展套件，以实现一些增强的部署运维能力，比如：
+
+- 支持WorkLoad原地In-place升级和分批发布；即发布时不新建Pod替换，而是update原有Pod，并且提供可暂停的分批发布机制
+- 以SidecarSet对象的形式支持Sidecar类容器的统一管理，包括Pod注入、版本升级等
+- 提供高可用性防护机制，防止集群中的重要Kubernetes资源被级联删除
+
+OpenKruise提供的这些扩展能力，都是基于Kubebuilder框架和Operator模式实现的，属于非常典型的K8S扩展方式。
+
+#### Sidecar
+
+下文我们会以SidecarSet为例展开，在这之前先简单了解一下Sidecar容器的概念。所谓Sidecar就是"边车模式"，将业务应用中的中间件能力抽取到一个独立的进程（容器）中去运行，如此一来，业务应用就不需要再集成厚重的中间件能力，也不需要再考虑其版本升级维护，从而大大简化业务应用的复杂度，使其变得极为轻量。
+
+Sidecar模式在K8S问世后逐渐兴起，由于K8S本身优秀的Pod抽象，使得Sidecar容器能够和应用容器更加无缝自然的集成，通常在实现上体现为一个Pod中同时包含业务容器和Sidecar容器。以RPC中间件为例，Sidecar模式下的RPC通信变成了Sidecar容器之间的互相通信，业务的App容器则分别和自己的Sidecar容器通信来发起RPC请求/拿到RPC结果。
+
+![img_43.png](img_43.png)
+
+#### SidecarSet的设计目标
+
+Sidecar是一种非常有用的架构模式，但在实际生产的使用中，Sidecar容器的管理和运维是较为棘手的事情，在K8S原生机制下开发人员需要手动修改各种Workload的对象定义来向Pod中添加Sidecar容器，如果有大量的Workload要维护，那么手动添加Sidecar容器以及后续更新Sidecar容器的过程可能变成一场噩梦。
+
+基于上述场景可以很容易提炼出Sidecar类容器的运维诉求，主要包含两点：
+
+- 自动注入：可以对符合条件的Pod（如label匹配）自动进行Sidecar容器的注入，而不再需要手动修改对应Pod/Workload的定义
+- 整体管理：对一类Sidecar容器能够进行整体的管理，比如更新、回滚、删除等等，而不再是手动去管理分散在Pod中的一个个Sidecar容器
+
+这些也正是OpenKruise SidecarSet提供的核心能力，通过SidecarSet CRD对象，使用者可以对Sidecar容器进行统一的注入和管理，极大地降低了使用和运维Sidecar容器的成本。
+
+#### 对象设计
+
+**spec**
+
+**status**
+
+#### 注入能力实现
+
+#### Reconcile逻辑
