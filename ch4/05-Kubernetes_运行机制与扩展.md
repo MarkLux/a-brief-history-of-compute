@@ -412,10 +412,33 @@ type SidecarSetStatus struct {
 
 ![img_44.png](img_44.png)
 
-#### 唯一性Hash
+#### SidecarSet Hash
 
-由于要判断
+SidecarSet本身被更新后，所有被注入了该SidecarSet的Pod内的Sidecar容器也需要随之更新，在整个更新过程中势必需要区分每个Pod是否更新到了最新的SidecarSet，这个过程最简单粗暴的实现就是去对比Pod内所有Sidecar容器对象和SidecarSet对象中容器的Spec声明是否完全一致，但如果真的去逐个字段对比性能会非常差，所以在实际实现上利用了Hash的方式来优化判断过程。
+
+SidecarSet被生成或更新后，会生成一个唯一的Hash（通过mutate webhook实现），这个Hash是使用SidecarSet下所有的Container对象生成，所以一个Hash可以唯一对应一个SidecarSet中Container的版本，我们称这个唯一Hash为SidecarSet Hash。
+
+对于所有被注入的Pod来说，SidecarSet会在注入/更新完成后在该Pod的Annotation中写入/更新这个唯一Hash，此后只需要对比Pod Annotation中的SidecarSet Hash和SidecarSet当前的唯一Hash是否一致，就可以知道Pod是否更新到最新的SidecarSet了。
+
+![img_45.png](img_45.png)
+
+> 除了SidecarSet Hash之外，还会存在一个SidecarSet Without-Image Hash，这个Hash不同的地方在于计算时忽略了Container中的Image字段，因此可以用于校验SidecarSet的变更"是否只包含镜像"字段。
+> 该Hash会在SidecarSet的原地更新功能中使用到。
 
 #### 注入能力实现
+
+SidecarSet的注入发生在Pod的创建阶段，通过注册Pod Mutate WebHook来实现，注入流程的核心逻辑大致如下图所示：
+
+![img_46.png](img_46.png)
+
+简要来说就是在任意一个Pod创建后，通过Mutate WebHook拦截，遍历集群中所有的SidecarSet对象，如果该Pod匹配上任何一个SidecarSet对象，就执行注入操作。
+
+注入流程主要是根据SidecarSet修改Pod的InitContainers和Containers Spec，以及对应用到的Volume和ImagePullSecrets等，最后还会更新Pod的Annotation写入对应的SidecarSet Hash（以及SidecarSet Without-Image Hash）。
+
+**指定Inject Revision**
+
+正常情况下注入都会使用SidecarSet的最新版本，但可以通过配置SidecarSet的Inject Revision来控制注入时使用特定的SidecarSet版本。
+
+提供这一机制的主要目的在于：如果在SidecarSet灰度更新的过程中有Pod新增（或被重建）就会被注入最新版本的SidecarSet，这可能会干扰灰度更新的流程并引发不可预知的结果。
 
 #### Reconcile逻辑
