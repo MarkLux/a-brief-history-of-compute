@@ -1,0 +1,39 @@
+{
+  "lessonId": "4.2",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "question": "Google在2008年推出的GAE属于哪种云计算模式？",
+      "options": [
+        "IaaS模式，市场反响热烈",
+        "PaaS模式，因对代码限制较多而反响糟糕",
+        "PaaS模式，迅速击败了AWS EC2",
+        "IaaS模式，因技术超前而失败"
+      ],
+      "correctIndex": 1,
+      "explanation": "GAE是典型PaaS，但早期对应用代码有大量限制，用户接受度低，远不如AWS EC2的IaaS模式受欢迎。"
+    },
+    {
+      "id": "q2",
+      "type": "fill_blank",
+      "question": "PaaS容器编排竞争中最终胜出、成为事实标准的方案是______，其前身是Google内部的集群管理系统Borg",
+      "answer": "Kubernetes",
+      "acceptableAnswers": ["Kubernetes", "K8S", "k8s", "kubernetes"],
+      "explanation": "2017年Docker拥抱K8S生态，2021年AWS下线ACS转向Kubernetes，至此K8S成为容器编排的事实标准。"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "question": "微服务架构相比SOA最主要的区别是什么？",
+      "options": [
+        "微服务放弃了RPC通信，改用消息队列",
+        "微服务结合了容器技术，实现更细粒度的服务拆分和容器化部署",
+        "微服务只适用于小型应用",
+        "SOA依赖容器技术，微服务不依赖"
+      ],
+      "correctIndex": 1,
+      "explanation": "微服务是SOA与容器技术的结合升级，容器技术大幅降低了服务构建和维护成本，使更细粒度的服务拆分成为可能。"
+    }
+  ]
+}

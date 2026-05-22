@@ -1,0 +1,30 @@
+{
+  "lessonId": "1.5",
+  "annotations": [
+    {
+      "term": "PCB",
+      "pattern": "task_struct",
+      "explanation": "进程控制块（Process Control Block），Linux内核中记录进程全部元信息的数据结构，包含进程状态、时间片、优先级、寄存器上下文、文件描述符表等。"
+    },
+    {
+      "term": "fork",
+      "pattern": "fork",
+      "explanation": "Linux中创建新进程的机制，所有进程都由已存在的进程通过fork复制产生。本质是复制父进程的task_struct生成子进程，配合写时复制策略优化性能。"
+    },
+    {
+      "term": "写时复制",
+      "pattern": "写时复制",
+      "explanation": "Copy-on-Write (CoW)，fork后父子进程共享同一物理内存页的惰性优化策略。只有当某一方实际写入内存时，才分配新的物理页并复制内容。"
+    },
+    {
+      "term": "时间片",
+      "pattern": "时间片",
+      "explanation": "Time Slice，CPU运行时间被切割成的最小调度单元，每个进程每次最多连续运行一个时间片，调度器通过分配时间片实现多进程并发。"
+    },
+    {
+      "term": "文件描述符",
+      "pattern": "文件描述符",
+      "explanation": "File Descriptor (fd)，进程访问文件的抽象句柄，是一个非负整数。fd=0/1/2分别对应标准输入、标准输出、标准错误。"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "lessonId": "4.3",
+  "annotations": [
+    {
+      "term": "声明式API",
+      "pattern": "声明式",
+      "explanation": "K8S的核心设计理念：用户只需声明期望的最终状态，无需关心具体运维过程，K8S自动调度处理直到状态达成。与传统\"过程式API\"相对。"
+    },
+    {
+      "term": "Pod",
+      "pattern": "Pod",
+      "explanation": "K8S中最小的调度和运行单位，封装一组高度相关的容器，这些容器共享相同的namespace和网络。也是K8S进行扩缩容的基本单位。"
+    },
+    {
+      "term": "Deployment",
+      "pattern": "Deployment",
+      "explanation": "K8S中最常用的无状态工作负载对象，是对ReplicaSet的进一步封装，支持Pod的滚动更新和版本回滚。"
+    },
+    {
+      "term": "Service",
+      "pattern": "Service",
+      "explanation": "K8S中独立于工作负载的服务发现和负载均衡对象，为一组Pod提供稳定的访问入口，不会因扩缩容而消失。"
+    },
+    {
+      "term": "Ingress",
+      "pattern": "Ingress",
+      "explanation": "K8S中对集群外部暴露服务入口的负载均衡对象，相当于整个集群的\"网关\"，接收外部流量后转发到集群内的Service。"
+    }
+  ]
+}

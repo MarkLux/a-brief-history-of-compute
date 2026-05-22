@@ -1,0 +1,39 @@
+{
+  "lessonId": "1.1",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "question": "冯诺依曼架构最重要的特点是什么？",
+      "options": [
+        "程序和数据分开存储在不同设备中",
+        "程序和数据共享存储（存储程序方式）",
+        "只使用十进制进行运算",
+        "不需要外部存储器"
+      ],
+      "correctIndex": 1,
+      "explanation": "冯诺依曼架构的核心思想是\"存储程序\"：程序指令和数据一样存放在内存中，CPU从内存中取出指令并执行。这使得计算机可以灵活地运行不同程序，而不需要重新接线。"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "question": "计算机存储层级中，速度最快但容量最小的是？",
+      "options": [
+        "内存 (RAM)",
+        "高速缓存 (Cache)",
+        "寄存器 (Register)",
+        "固态硬盘 (SSD)"
+      ],
+      "correctIndex": 2,
+      "explanation": "寄存器是CPU内部的存储单元，速度与CPU运算速度匹配，但容量极为有限。存储层级从快到慢依次是：寄存器 → Cache → RAM → SSD/HDD。"
+    },
+    {
+      "id": "q3",
+      "type": "fill_blank",
+      "question": "______是硬件层面上唯一一种可以打破CPU顺序执行的机制",
+      "answer": "中断",
+      "acceptableAnswers": ["中断", "中断机制", "interrupt"],
+      "explanation": "中断机制解决了CPU与其他硬件速度不匹配的问题。当CPU需要等待慢速设备（如硬盘）时，不必空等，而是先执行其他任务，等设备准备好后通过中断信号通知CPU回来处理。"
+    }
+  ]
+}

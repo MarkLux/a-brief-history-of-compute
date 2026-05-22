@@ -1,0 +1,30 @@
+{
+  "lessonId": "3.4",
+  "annotations": [
+    {
+      "term": "RPC",
+      "pattern": "RPC",
+      "explanation": "Remote Procedure Call，远程过程调用，分布式系统中集群间通信的核心机制，使一个服务可以像调用本地函数一样调用另一台机器上的服务。"
+    },
+    {
+      "term": "服务发现",
+      "pattern": "服务发现",
+      "explanation": "客户端获取所有可用服务端地址的数据同步机制，依赖注册中心存储地址和元数据，通过心跳检测保证有效性，以监听推送方式同步上下线信息。"
+    },
+    {
+      "term": "CAP定理",
+      "pattern": "CAP",
+      "explanation": "分布式系统基础理论：一个分布式系统无法同时保证强一致性（Consistency）、可用性（Availability）和分区容忍性（Partition tolerance），必须舍弃其中之一。"
+    },
+    {
+      "term": "Raft协议",
+      "pattern": "Raft",
+      "explanation": "分布式数据一致性算法，基于主从复制和选主机制实现。通过\"多数投票\"选出唯一Leader，使用日志复制在集群各节点间同步数据。"
+    },
+    {
+      "term": "TCC",
+      "pattern": "TCC",
+      "explanation": "Try-Confirm-Cancel，分布式事务的异步处理模式，将事务分为锁定资源（Try）、提交（Confirm）、回滚（Cancel）三阶段，牺牲强一致性换取高可用。"
+    }
+  ]
+}

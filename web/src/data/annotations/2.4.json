@@ -1,0 +1,35 @@
+{
+  "lessonId": "2.4",
+  "annotations": [
+    {
+      "term": "CAS",
+      "pattern": "CAS",
+      "explanation": "Compare And Swap，CPU硬件层面的原子指令：比较内存值与预期值，相等则写入新值。是实现乐观锁、无锁数据结构的基础，但存在ABA问题。"
+    },
+    {
+      "term": "Monitor",
+      "pattern": "Monitor",
+      "explanation": "监视器，JVM实现重量级锁的核心C++数据结构，内含Owner（持锁线程）、Entry Set（等待队列）和Wait Set（wait挂起队列）。synchronized在重量级阶段依赖Monitor。"
+    },
+    {
+      "term": "AQS",
+      "pattern": "AQS",
+      "explanation": "AbstractQueuedSynchronizer，Java JUC包中的同步框架，核心是volatile int state + CLH双向队列。ReentrantLock、CountDownLatch等均基于AQS实现。"
+    },
+    {
+      "term": "锁膨胀",
+      "pattern": "锁膨胀",
+      "explanation": "JDK 1.6引入的synchronized优化：对象锁根据竞争程度从无锁→偏向锁→轻量级锁→重量级锁逐步升级，只有重量级锁才使用代价高昂的OS mutex。"
+    },
+    {
+      "term": "volatile",
+      "pattern": "volatile",
+      "explanation": "Java关键字，保证可见性（每次读取从主内存获取最新值）和禁止指令重排序，但不保证复合操作（如i++）的原子性。"
+    },
+    {
+      "term": "ThreadLocal",
+      "pattern": "ThreadLocal",
+      "explanation": "为每个线程提供变量独立副本的工具类，线程间完全隔离。典型应用：存储Session、数据库连接。线程池场景需注意用完清理。"
+    }
+  ]
+}

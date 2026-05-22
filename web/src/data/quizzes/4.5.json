@@ -1,0 +1,39 @@
+{
+  "lessonId": "4.5",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "fill_blank",
+      "question": "K8S Controller的工作队列通过DirtySet和ProcessingSet的去重逻辑，保障同一时刻一个对象只被______个Reconcile循环消费",
+      "answer": "1",
+      "acceptableAnswers": ["1", "一", "一个"],
+      "explanation": "当对象正在被Reconcile处理时，后续针对同一对象的请求只会进入DirtySet等待，不会再入队，避免并发冲突。"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "question": "关于OpenKruise SidecarSet的注入实现，以下描述正确的是？",
+      "options": [
+        "注入发生在Pod运行阶段，通过定期Reconcile实现",
+        "注入发生在Pod创建阶段，通过注册Pod Mutate Webhook拦截请求实现",
+        "注入只能在Workload层面手动配置yaml实现",
+        "注入通过修改etcd中的Pod数据直接实现"
+      ],
+      "correctIndex": 1,
+      "explanation": "SidecarSet通过在Pod创建时的Mutate Webhook拦截请求，自动向Pod Spec注入对应的Sidecar Container。"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "question": "KubeBuilder框架在Operator开发中主要解决哪些问题？",
+      "options": [
+        "仅提供CRD的YAML生成功能",
+        "提供CRD生成、Controller脚手架、Informer缓存和Webhook注册等一整套开发辅助能力",
+        "只负责将Operator部署到K8S集群中",
+        "提供运行时监控能力，不涉及代码生成"
+      ],
+      "correctIndex": 1,
+      "explanation": "KubeBuilder是Operator的完整开发框架，覆盖CRD定义、Controller脚手架（只需实现Reconcile）、Informer缓存、Webhook注册等全流程。"
+    }
+  ]
+}

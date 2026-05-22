@@ -1,0 +1,30 @@
+{
+  "lessonId": "1.1",
+  "annotations": [
+    {
+      "term": "ENIAC",
+      "pattern": "ENIAC",
+      "explanation": "Electronic Numerical Integrator and Computer，世界上第一台通用电子计算机，1946年诞生于宾夕法尼亚大学，最初用于计算导弹轨道。"
+    },
+    {
+      "term": "冯诺依曼",
+      "pattern": "冯[·]?诺伊曼",
+      "explanation": "John von Neumann，数学家和计算机科学先驱。他提出的\"存储程序\"概念奠定了现代计算机体系结构的基础。"
+    },
+    {
+      "term": "中断",
+      "pattern": "中断机制",
+      "explanation": "硬件层面打破CPU顺序执行的机制。当需要等待慢速设备时，CPU先去做别的事，等设备就绪后通过中断信号通知CPU回来处理。"
+    },
+    {
+      "term": "寄存器",
+      "pattern": "寄存器",
+      "explanation": "CPU内部的高速存储单元，速度最快但容量极小（通常只有几十个）。CPU的计算直接在寄存器上进行。"
+    },
+    {
+      "term": "中断描述符表",
+      "pattern": "中断描述符表",
+      "explanation": "IDT (Interrupt Descriptor Table)，存储了所有中断处理函数的地址。当中断发生时，CPU通过IDT找到对应的处理程序。"
+    }
+  ]
+}

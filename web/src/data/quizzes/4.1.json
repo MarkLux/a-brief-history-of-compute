@@ -1,0 +1,39 @@
+{
+  "lessonId": "4.1",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "question": "Docker容器技术依赖Linux的哪两项核心机制来分别实现\"资源限制\"和\"资源隔离\"？",
+      "options": [
+        "Hypervisor 和 UnionFS",
+        "cgroups 和 namespace",
+        "namespace 和 aufs",
+        "cgroups 和 Hypervisor"
+      ],
+      "correctIndex": 1,
+      "explanation": "cgroups负责对进程的CPU、内存等资源进行限制性分配；namespace负责对进程的PID、网络等实现可见性隔离。"
+    },
+    {
+      "id": "q2",
+      "type": "fill_blank",
+      "question": "Docker镜像的本质是一个完整的______（即根目录），通过mount namespace将其作为容器的根目录挂载",
+      "answer": "rootfs",
+      "acceptableAnswers": ["rootfs", "root filesystem", "根文件系统"],
+      "explanation": "rootfs包含OS所需的全部文件，镜像能把软件运行环境整个打包，保证在任何宿主机上运行结果一致。"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "question": "关于Docker镜像的Layer（层）机制，以下描述错误的是？",
+      "options": [
+        "每一层都基于UnionFS挂载实现，不是物理拷贝",
+        "相同的基础层可以被多个镜像复用，节省存储空间",
+        "容器运行时产生的修改会直接写入原始镜像层",
+        "容器运行时会额外叠加Init层和可读写（rw）层"
+      ],
+      "correctIndex": 2,
+      "explanation": "原始镜像所有Layer以只读方式挂载，运行时修改只对顶部可读写层生效，保障原始镜像不被破坏。"
+    }
+  ]
+}

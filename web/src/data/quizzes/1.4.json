@@ -1,0 +1,39 @@
+{
+  "lessonId": "1.4",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "question": "Linux中分页机制的主要优势是什么？",
+      "options": [
+        "消除段描述符，简化寻址流程",
+        "将连续的段空间拆分为独立小页，配合虚拟内存提高物理内存利用率",
+        "直接通过物理地址访问内存，速度更快",
+        "为每个进程分配固定大小的连续物理内存"
+      ],
+      "correctIndex": 1,
+      "explanation": "分页机制将内存以页为单位管理，通过虚拟内存机制大幅提升了物理内存的使用效率和多任务能力。"
+    },
+    {
+      "id": "q2",
+      "type": "fill_blank",
+      "question": "在分页机制中，负责将线性地址转换为物理地址的硬件单元称为______",
+      "answer": "MMU",
+      "acceptableAnswers": ["MMU", "内存管理单元", "Memory Management Unit"],
+      "explanation": "MMU是专门负责地址转换和页表管理的硬件，CPU本身不直接处理地址转换。"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "question": "关于malloc/ptmalloc的描述，下列哪项是正确的？",
+      "options": [
+        "每次malloc都会触发一次系统调用",
+        "free释放的内存会立即归还给操作系统",
+        "ptmalloc预先从OS申请大块内存（arena），小块分配在arena内部完成，减少系统调用开销",
+        "ptmalloc只维护一个arena，通过读写锁保证线程安全"
+      ],
+      "correctIndex": 2,
+      "explanation": "ptmalloc作为\"二道贩子\"，预先批量从OS申请内存，再按需分配给进程，极大减少了系统调用频率。"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "lessonId": "1.5",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "question": "Linux中，写时复制（Copy-on-Write）策略的主要目的是？",
+      "options": [
+        "防止父进程被子进程修改代码段",
+        "fork后父子进程共享物理内存页，仅在写入时才分配新页，减少不必要的内存复制开销",
+        "确保子进程拥有完全独立的地址空间",
+        "加快execve装载新程序的速度"
+      ],
+      "correctIndex": 1,
+      "explanation": "CoW是一种惰性优化，fork时不立即复制内存，只有实际写入时才复制对应的页，显著节省fork的性能开销。"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "question": "进程通过open()打开文件后，fd=1对应的是哪个标准流？",
+      "options": [
+        "标准输入（stdin）",
+        "标准输出（stdout）",
+        "标准错误（stderr）",
+        "网络套接字"
+      ],
+      "correctIndex": 1,
+      "explanation": "Linux约定fd=0为stdin，fd=1为stdout，fd=2为stderr，这三个特殊fd在进程创建时默认建立。"
+    },
+    {
+      "id": "q3",
+      "type": "fill_blank",
+      "question": "Linux进程调度中，当所有进程的时间片耗尽时，重新分配时间片的公式为 counter = counter/2 + ______",
+      "answer": "priority",
+      "acceptableAnswers": ["priority", "优先级"],
+      "explanation": "重分配公式 counter = counter/2 + priority 兼顾了历史优先级和之前未用完的配额，实现动态调度平衡。"
+    }
+  ]
+}

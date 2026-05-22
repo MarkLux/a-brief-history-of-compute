@@ -1,0 +1,39 @@
+{
+  "lessonId": "2.3",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "question": "关于JVM新生代内存结构，下列说法正确的是？",
+      "options": [
+        "新生代由Eden区和一块Survivor区组成，比例为8:2",
+        "新生代采用标记-整理算法进行垃圾回收",
+        "新生代Eden、From Survivor、To Survivor的默认比例为8:1:1",
+        "在Survivor区存活超过8次GC的对象会晋升到老年代"
+      ],
+      "correctIndex": 2,
+      "explanation": "新生代包含Eden和两块等大的Survivor（From/To），比例默认8:1:1；采用复制算法；默认晋升阈值是15次GC。"
+    },
+    {
+      "id": "q2",
+      "type": "fill_blank",
+      "question": "在并发GC中，漏标问题发生的两个必要条件：一是______对象新增了对白色对象的引用；二是灰色对象删除了对该白色对象的全部引用",
+      "answer": "黑色",
+      "acceptableAnswers": ["黑色", "黑色对象"],
+      "explanation": "漏标导致存活对象被错误回收。CMS用增量更新（破坏条件1），G1用SATB原始快照（破坏条件2）来解决。"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "question": "高性能IO框架（如Netty）使用堆外内存的主要原因是？",
+      "options": [
+        "堆外内存容量更大，不受JVM堆大小限制",
+        "堆外内存地址固定，可直接作为DMA缓冲区，避免GC移动对象导致的额外数据拷贝",
+        "堆外内存的读写速度比堆内内存快一倍",
+        "使用堆外内存可以完全避免GC的发生"
+      ],
+      "correctIndex": 1,
+      "explanation": "JVM堆中的对象地址会因GC而改变，无法直接用于OS层面的IO缓冲区。堆外内存地址固定，省去一次拷贝。"
+    }
+  ]
+}

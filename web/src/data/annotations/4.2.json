@@ -1,0 +1,30 @@
+{
+  "lessonId": "4.2",
+  "annotations": [
+    {
+      "term": "IaaS",
+      "pattern": "IaaS",
+      "explanation": "Infrastructure as a Service，基础设施即服务。以VM形式售卖原始计算资源，用户无需自建机房，但VM内部的OS和软件仍需自行维护。AWS EC2是代表产品。"
+    },
+    {
+      "term": "PaaS",
+      "pattern": "PaaS",
+      "explanation": "Platform as a Service，平台即服务。除提供基础资源外，还托管数据库、缓存等中间件，使用户只需关注业务应用本身。"
+    },
+    {
+      "term": "容器编排",
+      "pattern": "容器编排",
+      "explanation": "对大规模容器集群进行自动化部署、扩缩容、调度和运维管理的能力，是PaaS模式下\"以应用为中心\"理念落地的核心技术。"
+    },
+    {
+      "term": "CNCF",
+      "pattern": "CNCF",
+      "explanation": "Cloud Native Computing Foundation，云原生计算基金会。2015年由Google联合成立，推动云原生应用理念发展，Kubernetes是其最具代表性的孵化项目。"
+    },
+    {
+      "term": "Serverless",
+      "pattern": "Serverless",
+      "explanation": "云原生架构理念，强调服务应尽可能无状态和低启动成本，将中间件能力下沉给平台托管，使业务足够轻量以支持弹性伸缩和按量计费。"
+    }
+  ]
+}

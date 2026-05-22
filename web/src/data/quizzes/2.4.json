@@ -1,0 +1,39 @@
+{
+  "lessonId": "2.4",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "question": "关于Java线程状态，下列说法正确的是？",
+      "options": [
+        "线程调用sleep()进入WAITING状态，会释放持有的锁",
+        "线程调用wait()进入WAITING状态，会释放持有的锁",
+        "线程抢锁失败进入BLOCKED状态，会释放已持有的其他锁",
+        "RUNNABLE状态的线程一定正在CPU上执行"
+      ],
+      "correctIndex": 1,
+      "explanation": "wait()进入WAITING时会释放锁；sleep()进入TIMED_WAITING不释放锁；BLOCKED不释放其他锁；RUNNABLE包含Ready和Running两种子状态。"
+    },
+    {
+      "id": "q2",
+      "type": "fill_blank",
+      "question": "CAS存在的经典缺陷被称为______问题，解决方案通常是引入版本号机制",
+      "answer": "ABA",
+      "acceptableAnswers": ["ABA", "aba"],
+      "explanation": "内存值从A改为B再改回A，CAS无法察觉。Java中AtomicStampedReference通过版本号戳来解决。"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "question": "以下关于AQS与synchronized的对比，哪项描述是错误的？",
+      "options": [
+        "synchronized的锁实现由JVM决定；AQS将tryAcquire/tryRelease交给子类实现",
+        "synchronized只能实现非公平独占锁；AQS可以实现公平锁、共享锁等",
+        "AQS底层仍依赖OS mutex系统调用，和synchronized重量级锁开销一致",
+        "AQS可以实现带超时的抢锁和可响应中断的抢锁"
+      ],
+      "correctIndex": 2,
+      "explanation": "AQS是纯Java实现，基于volatile state + CAS + CLH队列，不依赖OS mutex系统调用，这是它相比synchronized重量级锁的主要优势。"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "lessonId": "1.3",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "question": "Linux\"一切皆文件\"哲学的主要好处是什么？",
+      "options": [
+        "减少磁盘空间占用",
+        "用统一的文件操作API访问设备、管道等多种系统资源",
+        "提高CPU的运算速度",
+        "让所有程序共享同一个文件描述符"
+      ],
+      "correctIndex": 1,
+      "explanation": "\"一切皆文件\"将不同类型的系统资源抽象为统一的文件接口（open/read/write/close），降低了开发复杂度。"
+    },
+    {
+      "id": "q2",
+      "type": "fill_blank",
+      "question": "文件系统中，用于记录文件元信息（大小、权限、数据块指针等）的数据结构称为______",
+      "answer": "inode",
+      "acceptableAnswers": ["inode", "索引节点", "inode（索引节点）"],
+      "explanation": "inode是文件系统的核心元数据结构，每个文件对应唯一一个inode，但inode本身不存储文件名。"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "question": "文件系统采用离散存储（而非连续存储）数据块的主要原因是？",
+      "options": [
+        "提高读取速度",
+        "减少inode数量",
+        "避免碎片化问题，提高空间利用率",
+        "方便超级块的管理"
+      ],
+      "correctIndex": 2,
+      "explanation": "连续存储容易产生外部碎片，离散存储（配合位图管理）可以更灵活地利用磁盘上的空闲块。"
+    }
+  ]
+}

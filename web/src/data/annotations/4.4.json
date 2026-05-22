@@ -1,0 +1,30 @@
+{
+  "lessonId": "4.4",
+  "annotations": [
+    {
+      "term": "Pause容器",
+      "pattern": "Pause",
+      "explanation": "K8S中每个Pod隐含的基础容器，运行一个极简进程，为Pod内所有容器提供稳定的network namespace宿主，实现Pod内容器的网络互通。"
+    },
+    {
+      "term": "探针",
+      "pattern": "Probe",
+      "explanation": "K8S检测容器状态的接口，分三种：startupProbe（是否启动完毕）、livenessProbe（是否存活）、readinessProbe（是否可提供服务）。"
+    },
+    {
+      "term": "kube-proxy",
+      "pattern": "kube-proxy",
+      "explanation": "K8S每个节点上负责维护网络代理和路由规则的组件，Service的流量转发依赖它实现，支持userspace、iptables和ipvs三种模式。"
+    },
+    {
+      "term": "HPA",
+      "pattern": "HPA",
+      "explanation": "Horizontal Pod Autoscaler，水平自动伸缩器。基于监控指标（如CPU利用率）自动调整Pod数量，周期性巡检触发伸缩。"
+    },
+    {
+      "term": "PVC",
+      "pattern": "PVC",
+      "explanation": "Persistent Volume Claim，持久卷声明。Pod不直接使用PV，而是通过PVC描述所需存储的容量和访问模式，K8S自动将PVC与满足条件的PV绑定。"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "lessonId": "4.1",
+  "annotations": [
+    {
+      "term": "Hypervisor",
+      "pattern": "Hypervisor",
+      "explanation": "虚拟化核心软件，负责托管物理资源并虚拟化为多个虚拟机。当VM执行\"虚拟化敏感\"指令时，Hypervisor负责拦截并转发给宿主物理机。"
+    },
+    {
+      "term": "cgroups",
+      "pattern": "cgroups",
+      "explanation": "Control Groups，Linux内核的资源限制技术，可以将CPU、内存、IO等资源的使用限制绑定到一组进程上，是容器技术实现资源隔离的核心机制之一。"
+    },
+    {
+      "term": "namespace",
+      "pattern": "namespace",
+      "explanation": "Linux的进程隔离机制，通过clone系统调用为进程设定独立的命名空间，使进程在PID、网络、挂载点等资源可见性上与宿主隔离，是容器技术的另一核心机制。"
+    },
+    {
+      "term": "rootfs",
+      "pattern": "rootfs",
+      "explanation": "Root File System，包含OS所需全部文件的根目录。Docker镜像本质就是一个完整的rootfs，通过mount namespace挂载为容器的根目录。"
+    },
+    {
+      "term": "UnionFS",
+      "pattern": "UnionFS",
+      "explanation": "联合文件系统，可将多个目录挂载合并到同一目录下。Docker基于此实现镜像分层（Layer）存储，相同基础层可被多个镜像复用。"
+    }
+  ]
+}

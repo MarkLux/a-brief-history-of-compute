@@ -1,0 +1,39 @@
+{
+  "lessonId": "4.3",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "fill_blank",
+      "question": "K8S中任意对象的属性分为三类：metadata（元信息）、______（用户期望状态）和status（当前实际状态）",
+      "answer": "spec",
+      "acceptableAnswers": ["spec"],
+      "explanation": "spec体现声明式API的核心，用户在spec中声明期望状态，Controller持续对比spec和status并进行调整。"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "question": "关于K8S中StatefulSet和Deployment的区别，以下哪项正确？",
+      "options": [
+        "StatefulSet通过ReplicaSet控制Pod",
+        "Deployment保证Pod的顺序性和唯一性",
+        "StatefulSet中每个Pod拥有唯一标识，启停顺序严格受控，需配合HeadlessService使用",
+        "StatefulSet不支持持久化存储"
+      ],
+      "correctIndex": 2,
+      "explanation": "StatefulSet保障Pod唯一标识、严格启停顺序，搭配HeadlessService做DNS服务发现，适用于数据库等有状态应用。"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "question": "在K8S中，Service和Ingress的主要区别是什么？",
+      "options": [
+        "Service用于对集群外暴露入口，Ingress用于内部服务发现",
+        "Ingress用于对集群外暴露入口（网关），Service用于集群内部的服务发现和负载均衡",
+        "两者功能完全相同",
+        "Ingress直接与Pod绑定，Service与工作负载绑定"
+      ],
+      "correctIndex": 1,
+      "explanation": "Ingress是集群对外网关，处理外部请求并转发给内部Service；Service负责集群内部服务发现与负载均衡。"
+    }
+  ]
+}

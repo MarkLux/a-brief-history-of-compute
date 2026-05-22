@@ -1,0 +1,30 @@
+{
+  "lessonId": "1.4",
+  "annotations": [
+    {
+      "term": "物理地址",
+      "pattern": "物理地址",
+      "explanation": "Physical Address，内存条上每个存储单元实际的编号地址，是硬件层面真实存在的地址，CPU最终通过物理地址访问内存。"
+    },
+    {
+      "term": "分段机制",
+      "pattern": "分段",
+      "explanation": "Segmentation，将内存划分为若干逻辑段（代码段、数据段等），通过\"段基址 + 偏移\"计算出物理地址，用于代码与数据的隔离及进程间的内存保护。"
+    },
+    {
+      "term": "分页机制",
+      "pattern": "分页",
+      "explanation": "Paging，将虚拟地址空间和物理内存都划分为固定大小的\"页\"，通过页表建立映射关系，配合虚拟内存实现内存扩展和多进程隔离，是Linux主要使用的内存管理机制。"
+    },
+    {
+      "term": "MMU",
+      "pattern": "MMU",
+      "explanation": "Memory Management Unit，内存管理单元，硬件单元，负责在分页机制下将CPU发出的线性地址转换为物理地址，并管理页表项的装载与缺页处理。"
+    },
+    {
+      "term": "mmap",
+      "pattern": "mmap",
+      "explanation": "Linux系统调用，将一个文件映射到进程的虚拟地址空间，进程可通过读写内存的方式操作文件内容，是现代应用最常用的内存分配方式之一。"
+    }
+  ]
+}

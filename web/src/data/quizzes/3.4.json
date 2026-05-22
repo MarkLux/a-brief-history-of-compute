@@ -1,0 +1,39 @@
+{
+  "lessonId": "3.4",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "question": "根据CAP定理，在分布式系统中通常无法避免的特性是？",
+      "options": [
+        "强一致性（Consistency）",
+        "可用性（Availability）",
+        "分区容忍性（Partition Tolerance）",
+        "水平扩展性"
+      ],
+      "correctIndex": 2,
+      "explanation": "网络分区在实际分布式系统中不可避免，因此分区容忍性通常必须保留，开发者需要在一致性和可用性之间取舍。"
+    },
+    {
+      "id": "q2",
+      "type": "fill_blank",
+      "question": "Raft协议中，集群节点分为三个角色：Leader、Follower和______。当Follower接收不到Leader心跳时，就会转变为该角色并发起选举",
+      "answer": "Candidate",
+      "acceptableAnswers": ["Candidate", "候选者", "竞选者"],
+      "explanation": "Candidate是Raft选主流程的关键角色，任何Follower在等待超过选举超时时间后都会变为Candidate。"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "question": "关于2PC和TCC的对比，描述正确的是？",
+      "options": [
+        "2PC追求最终一致性，TCC追求强一致性",
+        "2PC牺牲可用性保障强一致性，TCC牺牲强一致性保障高可用性",
+        "TCC依赖事务协调器，2PC不需要",
+        "两者都是同步阻塞的事务处理方式"
+      ],
+      "correctIndex": 1,
+      "explanation": "2PC通过协调器同步等待所有节点确认，保障强一致性但牺牲可用性；TCC将流程异步化，牺牲强一致性换取高可用。"
+    }
+  ]
+}

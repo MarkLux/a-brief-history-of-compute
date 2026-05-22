@@ -1,0 +1,29 @@
+{
+  "learner": {
+    "name": "学习者",
+    "level": "beginner",
+    "background": "初级开发者，1-2年工作经验，日常写业务代码但对底层原理了解不多",
+    "started_at": "2026-05-21",
+    "goals": ["全面系统学习，从操作系统到云计算完整走一遍知识脉络"]
+  },
+  "progress": {
+    "1.1": { "status": "not_started" },
+    "1.2": { "status": "not_started" },
+    "1.3": { "status": "not_started" },
+    "1.4": { "status": "not_started" },
+    "1.5": { "status": "not_started" },
+    "2.1": { "status": "not_started" },
+    "2.2": { "status": "not_started" },
+    "2.3": { "status": "not_started" },
+    "2.4": { "status": "not_started" },
+    "3.4": { "status": "not_started" },
+    "4.1": { "status": "not_started" },
+    "4.2": { "status": "not_started" },
+    "4.3": { "status": "not_started" },
+    "4.4": { "status": "not_started" },
+    "4.5": { "status": "not_started" }
+  },
+  "current_topic": "1.1",
+  "total_sessions": 1,
+  "last_session": "2026-05-21"
+}

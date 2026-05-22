@@ -1,0 +1,31 @@
+{
+  "lessonId": "2.1",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "question": "Java实现跨平台的核心机制是什么？",
+      "options": [
+        "Java代码直接编译为各平台的机器码",
+        "Java代码编译为字节码，由各平台的JVM执行",
+        "Java使用解释执行，不需要编译",
+        "Java通过操作系统API实现跨平台"
+      ],
+      "correctIndex": 1,
+      "explanation": "Java的跨平台策略是：源码 → 字节码(一次编译) → 各平台JVM执行(到处运行)。JVM作为中间层屏蔽了平台差异。"
+    },
+    {
+      "id": "q2",
+      "type": "multiple_choice",
+      "question": "JIT编译相比纯解释执行的优势是什么？",
+      "options": [
+        "节省内存",
+        "编译速度更快",
+        "将热点代码编译为机器码，提升运行性能",
+        "支持更多编程语言"
+      ],
+      "correctIndex": 2,
+      "explanation": "JIT (Just-In-Time) 编译器会识别频繁执行的\"热点\"代码，将其编译为本地机器码直接执行，避免了重复解释字节码的开销，显著提升性能。"
+    }
+  ]
+}

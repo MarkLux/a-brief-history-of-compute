@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans SC', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Markdown content styling */
+.markdown-body h1 {
+  @apply text-2xl font-bold mb-6 pb-2 border-b border-gray-200;
+}
+.markdown-body h3 {
+  @apply text-xl font-semibold mt-8 mb-4 text-gray-800;
+}
+.markdown-body h4 {
+  @apply text-lg font-medium mt-6 mb-3 text-gray-700;
+}
+.markdown-body p {
+  @apply my-3 leading-7 text-gray-700;
+}
+.markdown-body ul, .markdown-body ol {
+  @apply my-3 pl-6;
+}
+.markdown-body li {
+  @apply my-1 leading-7 text-gray-700;
+}
+.markdown-body ul li {
+  @apply list-disc;
+}
+.markdown-body ol li {
+  @apply list-decimal;
+}
+.markdown-body blockquote {
+  @apply border-l-4 border-blue-300 bg-blue-50 pl-4 py-2 my-4 text-gray-600 italic;
+}
+.markdown-body img {
+  @apply max-w-full rounded-lg shadow-sm my-4;
+}
+.markdown-body pre {
+  @apply bg-gray-900 rounded-lg p-4 my-4 overflow-x-auto;
+}
+.markdown-body pre code {
+  @apply bg-transparent text-sm p-0;
+}
+.markdown-body code {
+  @apply bg-gray-100 text-red-600 px-1.5 py-0.5 rounded text-sm font-mono;
+}
+.markdown-body strong {
+  @apply font-semibold text-gray-900;
+}
+.markdown-body table {
+  @apply w-full border-collapse my-4;
+}
+.markdown-body th, .markdown-body td {
+  @apply border border-gray-200 px-3 py-2 text-sm;
+}
+.markdown-body th {
+  @apply bg-gray-50 font-semibold;
+}
+.markdown-body a {
+  @apply text-blue-600 hover:underline;
+}
+.markdown-body hr {
+  @apply my-8 border-gray-200;
+}

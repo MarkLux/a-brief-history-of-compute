@@ -1,0 +1,30 @@
+{
+  "lessonId": "1.3",
+  "annotations": [
+    {
+      "term": "一切皆文件",
+      "pattern": "一切皆文件",
+      "explanation": "Linux的核心设计哲学，将设备、管道、套接字等系统资源都抽象为文件接口，开发者可以用统一的文件操作API（read/write/open/close）访问几乎所有系统资源。"
+    },
+    {
+      "term": "inode",
+      "pattern": "inode",
+      "explanation": "索引节点，文件系统中存储文件元信息的数据结构，包含文件大小、权限、时间戳、以及指向实际数据块的指针。每个文件对应一个inode，inode本身不存储文件名。"
+    },
+    {
+      "term": "块位图",
+      "pattern": "块位图",
+      "explanation": "Block Bitmap，用一个二进制位图记录文件系统中每个数据块的使用状态（0=空闲，1=已用），操作系统通过它快速判断哪些块可以分配给新数据。"
+    },
+    {
+      "term": "超级块",
+      "pattern": "超级块",
+      "explanation": "Superblock，文件系统的全局元数据区域，记录总块数、可用块数、总inode数、可用inode数等关键信息，是文件系统挂载和访问的入口。"
+    },
+    {
+      "term": "挂载",
+      "pattern": "挂载",
+      "explanation": "Mount，将一个外部存储设备或文件系统附加到Linux目录树中某个节点（挂载点）的操作，使外设上的文件可以像普通目录一样被访问。"
+    }
+  ]
+}

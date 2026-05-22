@@ -1,0 +1,35 @@
+{
+  "lessonId": "4.5",
+  "annotations": [
+    {
+      "term": "Controller & Reconcile",
+      "pattern": "Reconcile",
+      "explanation": "调谐，Controller持续对比对象期望状态（spec）与实际状态（status）并进行调整的循环过程，是K8S自动化能力的运行核心。"
+    },
+    {
+      "term": "Informer",
+      "pattern": "Informer",
+      "explanation": "K8S为Controller提供的对象数据缓存机制，先通过List全量拉取再通过Watch监听变更，避免频繁直接访问API Server和etcd。"
+    },
+    {
+      "term": "CRD",
+      "pattern": "CRD",
+      "explanation": "Custom Resource Definition，自定义资源定义。允许用户定义自己的K8S对象类型，使K8S可以像管理原生对象一样管理用户自定义资源。"
+    },
+    {
+      "term": "Webhook",
+      "pattern": "Webhook",
+      "explanation": "作用于API Server上的拦截机制。MutateWebhook可拦截并修改对象请求（如注入Sidecar），ValidationWebhook用于业务字段校验。"
+    },
+    {
+      "term": "Operator",
+      "pattern": "Operator",
+      "explanation": "K8S最常见的自定义扩展模式，由CRD + Webhook + 自定义Controller三部分组成，可扩展K8S原生能力以支持复杂运维场景。"
+    },
+    {
+      "term": "Sidecar",
+      "pattern": "Sidecar",
+      "explanation": "将中间件能力（如RPC、监控）抽取到独立的边车容器中，与业务容器共同部署在同一Pod内，使业务应用无需集成厚重中间件。"
+    }
+  ]
+}

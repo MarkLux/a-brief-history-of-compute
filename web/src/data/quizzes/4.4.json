@@ -1,0 +1,39 @@
+{
+  "lessonId": "4.4",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "question": "Deployment实现Pod滚动更新的底层原理是什么？",
+      "options": [
+        "直接修改现有Pod的容器镜像版本",
+        "删除旧的ReplicaSet，创建全新的ReplicaSet",
+        "创建新RS逐步扩容，同时缩容旧RS，旧RS不删除作为历史版本保留",
+        "通过修改ReplicaSet的template字段触发Pod原地更新"
+      ],
+      "correctIndex": 2,
+      "explanation": "每次Deployment更新都创建新RS并逐步扩容，同时缩容旧RS至0，旧RS作为历史版本保留以支持回滚。"
+    },
+    {
+      "id": "q2",
+      "type": "fill_blank",
+      "question": "在K8S Service的kube-proxy实现中，______模式使用哈希表作为底层数据结构，相比iptables在Service数量庞大时性能更好",
+      "answer": "ipvs",
+      "acceptableAnswers": ["ipvs", "IPVS"],
+      "explanation": "iptables在规则过多时匹配变慢，K8S 1.9后引入同样运行于内核态但使用哈希表的ipvs来解决此问题。"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "question": "关于StatefulSet的伸缩机制，以下描述正确的是？",
+      "options": [
+        "扩缩容可以对多个Pod并行执行",
+        "缩容时从序号最小的Pod开始删除",
+        "扩缩容严格按顺序单调执行，前一个Pod操作完成前下一个不会开始",
+        "StatefulSet通过ReplicaSet间接控制Pod"
+      ],
+      "correctIndex": 2,
+      "explanation": "StatefulSet扩缩容严格有序：缩容时按倒序删除，扩容时按升序创建，且每个Pod操作完成前下一个不会开始。"
+    }
+  ]
+}

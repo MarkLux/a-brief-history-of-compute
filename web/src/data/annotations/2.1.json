@@ -1,0 +1,20 @@
+{
+  "lessonId": "2.1",
+  "annotations": [
+    {
+      "term": "JVM",
+      "pattern": "JVM",
+      "explanation": "Java Virtual Machine，Java虚拟机。它是Java实现\"一次编写，到处运行\"的关键——Java代码编译成字节码后由JVM解释执行，屏蔽了底层平台差异。"
+    },
+    {
+      "term": "JIT",
+      "pattern": "JIT",
+      "explanation": "Just-In-Time Compilation，即时编译。JVM在运行时将热点字节码直接编译为机器码执行，兼顾了解释型语言的灵活性和编译型语言的性能。"
+    },
+    {
+      "term": "字节码",
+      "pattern": "字节码",
+      "explanation": "Bytecode，介于源代码和机器码之间的中间表示。Java源码编译为字节码(.class文件)，再由JVM解释或JIT编译执行。"
+    }
+  ]
+}

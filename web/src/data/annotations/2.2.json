@@ -1,0 +1,30 @@
+{
+  "lessonId": "2.2",
+  "annotations": [
+    {
+      "term": "双亲委派模型",
+      "pattern": "双亲委派",
+      "explanation": "Java ClassLoader的加载规范：加载类时先委托父ClassLoader尝试，只有父加载器无法完成时才自行加载。保证核心类（如String、Object）在JVM中全局唯一。"
+    },
+    {
+      "term": "Klass",
+      "pattern": "Klass",
+      "explanation": "JVM内部（C++层）用于表示一个Java类的核心数据结构，存储在Metaspace中，包含类名、父类信息、方法元信息指针等。"
+    },
+    {
+      "term": "反射",
+      "pattern": "反射",
+      "explanation": "Java在运行时动态获取类信息、调用方法、修改属性的能力。通过Class.forName()、getDeclaredField()等API实现，是框架开发的重要基础。"
+    },
+    {
+      "term": "类隔离",
+      "pattern": "类隔离",
+      "explanation": "通过为不同应用创建独立的ClassLoader实例，使相同类名的字节码被隔离为不同的Class对象，允许同一JVM中运行依赖不同版本库的多个应用。"
+    },
+    {
+      "term": "MarkWord",
+      "pattern": "MarkWord",
+      "explanation": "Java对象头的组成部分，存储对象运行时状态信息，包括锁状态标记、GC分代年龄、hashCode等。锁膨胀时内容会随锁状态变化。"
+    }
+  ]
+}

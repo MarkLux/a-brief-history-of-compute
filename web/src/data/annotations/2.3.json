@@ -1,0 +1,30 @@
+{
+  "lessonId": "2.3",
+  "annotations": [
+    {
+      "term": "可达性分析",
+      "pattern": "可达性分析",
+      "explanation": "JVM识别垃圾对象的核心算法：从GC Roots出发遍历对象引用图，无法抵达的对象即为可回收垃圾。解决了引用计数法无法处理循环引用的问题。"
+    },
+    {
+      "term": "三色标记",
+      "pattern": "三色标记",
+      "explanation": "并发GC时用于可达性分析的算法：白色（未访问）、灰色（已访问但子引用未扫描完）、黑色（已访问且子引用已全扫描）。需配合写屏障解决漏标问题。"
+    },
+    {
+      "term": "STW",
+      "pattern": "STW",
+      "explanation": "Stop The World，GC过程中暂停所有用户线程的行为，保证回收正确性。现代GC优化的核心目标之一是缩短STW时间。"
+    },
+    {
+      "term": "写屏障",
+      "pattern": "写屏障",
+      "explanation": "Write Barrier，在对象引用赋值操作前后自动执行的Hook逻辑。用于在引用关系变化时记录信息，是实现跨代引用追踪和三色标记增量更新的核心机制。"
+    },
+    {
+      "term": "堆外内存",
+      "pattern": "堆外内存",
+      "explanation": "Direct Memory，不由JVM GC管理、直接向OS申请的内存。地址固定不变，可避免GC移动对象导致的地址不稳定，常用于高性能IO场景。"
+    }
+  ]
+}

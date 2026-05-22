@@ -1,0 +1,39 @@
+{
+  "lessonId": "2.2",
+  "questions": [
+    {
+      "id": "q1",
+      "type": "multiple_choice",
+      "question": "以下关于双亲委派模型的说法，哪项是正确的？",
+      "options": [
+        "双亲委派是JVM的强制规范，所有ClassLoader必须遵守",
+        "要求ClassLoader先尝试自己加载，失败再委托父加载器",
+        "主要目的是保证核心类（如String、Object）在JVM中只有一个版本",
+        "BootStrap ClassLoader的父加载器是Extension ClassLoader"
+      ],
+      "correctIndex": 2,
+      "explanation": "双亲委派模型是规范而非强制，方向是先委托父加载器；BootStrap ClassLoader是最顶层，没有父加载器。其核心目的是防止核心类被重复定义。"
+    },
+    {
+      "id": "q2",
+      "type": "fill_blank",
+      "question": "在JVM中，一个Class对象的唯一性由类名、字节码和______三者共同决定",
+      "answer": "ClassLoader",
+      "acceptableAnswers": ["ClassLoader", "类加载器", "class loader"],
+      "explanation": "即使类名和字节码完全相同，只要加载它们的ClassLoader不同，就是两个不同的Class对象，这是Tomcat类隔离的理论基础。"
+    },
+    {
+      "id": "q3",
+      "type": "multiple_choice",
+      "question": "关于Java对象在JVM内存中的结构，下列说法错误的是？",
+      "options": [
+        "对象头包含MarkWord和ClassPointer两部分",
+        "对象的static变量存储在对象的实例数据区中",
+        "成员变量的内存排列顺序不一定和声明顺序一致",
+        "对象末尾可能有内存对齐填充"
+      ],
+      "correctIndex": 1,
+      "explanation": "static变量属于类而不属于对象实例，在JVM中存储于堆区（Java 8后从Perm区移至堆），不会出现在对象实例数据区中。"
+    }
+  ]
+}
