@@ -1,0 +1,62 @@
+course:
+  id: a-brief-history-of-compute
+  title: 计算简史
+  description: 从操作系统、编程语言、软件工程到云计算的交互式学习路径。
+  chapters:
+    - id: ch1
+      title: 人机交互
+      lessons:
+        - id: ch1-01
+          title: 人机交互历程：从纸带到操作系统
+          source: ch1/01-人机交互历程_从纸带到操作系统.md
+        - id: ch1-02
+          title: 现代操作系统的雏形
+          source: ch1/02-现代操作系统的雏形.md
+        - id: ch1-03
+          title: Linux 的设计哲学：文件系统
+          source: ch1/03-Linux的设计哲学_文件系统.md
+        - id: ch1-04
+          title: Linux 的设计哲学：内存管理
+          source: ch1/04-Linux的设计哲学_内存管理.md
+        - id: ch1-05
+          title: Linux 的设计哲学：进程管理
+          source: ch1/05-Linux的设计哲学_进程管理.md
+    - id: ch2
+      title: 编程语言
+      lessons:
+        - id: ch2-01
+          title: 高级语言的演进之路
+          source: ch2/01-高级语言的演进之路.md
+        - id: ch2-02
+          title: 高级语言的自我修养：面向对象
+          source: ch2/02-高级语言的自我修养_面向对象.md
+        - id: ch2-03
+          title: 高级语言的自我修养：内存管理
+          source: ch2/03-高级语言的自我修养_内存管理.md
+        - id: ch2-04
+          title: 高级语言的自我修养：线程并发
+          source: ch2/04-高级语言的自我修养_线程并发.md
+    - id: ch3
+      title: 软件工程
+      lessons:
+        - id: ch3-04
+          title: 分布式系统
+          source: ch3/04-分布式系统.md
+    - id: ch4
+      title: 云计算
+      lessons:
+        - id: ch4-01
+          title: 楔子：从虚拟化到容器
+          source: ch4/01-楔子_从虚拟化到容器.md
+        - id: ch4-02
+          title: 云计算的混沌时代
+          source: ch4/02-云计算的混沌时代.md
+        - id: ch4-03
+          title: Kubernetes：基础概念与设计
+          source: ch4/03-Kubernetes_基础概念与设计.md
+        - id: ch4-04
+          title: Kubernetes：基本实现分析
+          source: ch4/04-Kubernetes_基本实现分析.md
+        - id: ch4-05
+          title: Kubernetes：运行机制与扩展
+          source: ch4/05-Kubernetes_运行机制与扩展.md

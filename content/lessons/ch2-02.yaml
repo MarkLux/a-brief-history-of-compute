@@ -1,0 +1,32 @@
+id: ch2-02
+title: 高级语言的自我修养：面向对象
+chapter_id: ch2
+source_md: ch2/02-高级语言的自我修养_面向对象.md
+level: intermediate
+estimated_minutes: 45
+prerequisites:
+  - ch2-01
+concepts:
+  - id: 从-javascript-对象到类
+    name: 从 JavaScript 对象到类
+    summary: 从 JavaScript 对象到类 是《高级语言的自我修养：面向对象》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    tags:
+      - core
+  - id: 封装
+    name: 封装
+    summary: 封装 是《高级语言的自我修养：面向对象》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    tags:
+      - core
+  - id: 多态
+    name: 多态
+    summary: 多态 是《高级语言的自我修养：面向对象》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    tags:
+      - core
+interaction_template: concept-comparison
+teacher_flow:
+  opening_question: 学习《高级语言的自我修养：面向对象》之前，先想一想：这篇文章试图解决计算系统中的哪个核心矛盾？
+  lesson_points:
+    - 从 JavaScript 对象到类：从 JavaScript 对象到类 是《高级语言的自我修养：面向对象》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    - 封装：封装 是《高级语言的自我修养：面向对象》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    - 多态：多态 是《高级语言的自我修养：面向对象》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+  closing_check: 请不用背术语，用自己的话解释《高级语言的自我修养：面向对象》最重要的一个设计思想。

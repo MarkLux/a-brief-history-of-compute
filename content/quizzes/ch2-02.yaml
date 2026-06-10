@@ -1,0 +1,112 @@
+lesson_id: ch2-02
+questions:
+  - id: q01
+    type: single-choice
+    question: 面向对象试图解决的核心问题是什么？
+    options:
+      - 用对象组织状态和行为，降低复杂系统建模成本
+      - 让所有代码都不能复用
+      - 替代操作系统
+      - 让程序只能顺序执行
+    answer: 0
+    explanation: 面向对象把数据和行为封装成对象，更适合表达复杂业务实体及其关系。
+    source_anchor: 从-javascript-对象到类
+  - id: q02
+    type: single-choice
+    question: 类和对象的关系更接近哪种说法？
+    options:
+      - 类是模板，对象是按模板创建出的实例
+      - 对象是模板，类是运行日志
+      - 类只能存在于数据库
+      - 对象不能包含状态
+    answer: 0
+    explanation: 类定义结构和行为，对象是运行时具体实例。
+    source_anchor: 从-javascript-对象到类
+  - id: q03
+    type: single-choice
+    question: 封装的主要价值是什么？
+    options:
+      - 隐藏内部状态和实现细节，通过受控接口访问
+      - 让所有字段必须公开
+      - 禁止方法调用
+      - 取消对象状态
+    answer: 0
+    explanation: 封装能降低耦合，保护对象内部不被随意修改。
+    source_anchor: 封装
+  - id: q04
+    type: single-choice
+    question: 多态为什么能提升扩展性？
+    options:
+      - 调用方依赖抽象接口，不必知道具体实现类
+      - 所有类都必须相同
+      - 方法名不能重复
+      - 对象不能继承
+    answer: 0
+    explanation: 多态允许同一接口对应不同实现，调用方通过抽象使用对象。
+    source_anchor: 多态
+  - id: q05
+    type: single-choice
+    question: 双亲委派模型主要避免什么问题？
+    options:
+      - 核心类被随意替换，类加载顺序混乱
+      - 对象不能创建
+      - 内存不能回收
+      - 线程不能启动
+    answer: 0
+    explanation: 父加载器优先保证核心类库的稳定性和安全边界。
+    source_anchor: 多态
+  - id: q06
+    type: single-choice
+    question: 从前端视角看，“类”相对 JavaScript 原型对象多了什么约束？
+    options:
+      - 更明确的结构、类型和类加载生命周期
+      - 完全没有对象实例
+      - 不能包含方法
+      - 只能运行在浏览器 DOM 中
+    answer: 0
+    explanation: Java 类有更明确的编译期结构和 JVM 加载流程；这和 JS 动态原型模型不同。
+    source_anchor: 从-javascript-对象到类
+  - id: q07
+    type: single-choice
+    question: 继承的主要风险是什么？
+    options:
+      - 父子类强耦合，层级过深会让行为难以理解
+      - 无法复用代码
+      - 不能表达多态
+      - 对象不能保存状态
+    answer: 0
+    explanation: 继承提供复用和扩展，但也会引入强耦合和脆弱基类问题。
+    source_anchor: 多态
+  - id: q08
+    type: single-choice
+    question: 类加载流程为什么要有多个阶段？
+    options:
+      - 为了把字节码读取、校验、准备、解析、初始化等职责拆开
+      - 为了让类不能创建对象
+      - 为了跳过安全检查
+      - 为了让字段随机赋值
+    answer: 0
+    explanation: 类加载不是简单读文件，而是把字节码变成 JVM 可用类型的完整过程。
+    source_anchor: 多态
+  - id: q09
+    type: single-choice
+    question: ClassLoader 的重要性体现在哪里？
+    options:
+      - 它决定类从哪里来、如何隔离和加载
+      - 它只负责垃圾回收
+      - 它只负责线程调度
+      - 它是数据库连接池
+    answer: 0
+    explanation: ClassLoader 参与类来源、命名空间隔离和动态加载，是 Java 生态扩展能力基础。
+    source_anchor: 多态
+  - id: q10
+    type: single-choice
+    question: 双亲委派为何能提高安全性？
+    options:
+      - 优先让父加载器加载核心类，避免应用伪造核心类
+      - 让所有类都由子加载器加载
+      - 禁止加载第三方类
+      - 取消类校验
+    answer: 0
+    explanation: 双亲委派保护核心类库，避免应用层覆盖 java.lang 等基础类型。
+    source_anchor: 多态

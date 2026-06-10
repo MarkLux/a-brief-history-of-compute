@@ -1,0 +1,101 @@
+lesson_id: ch1-05
+questions:
+  - id: q01
+    type: single-choice
+    question: PCB 在进程管理中保存什么？
+    options:
+      - 进程的元信息和运行上下文
+      - 网页 DOM 树
+      - 磁盘分区表
+      - 源代码注释
+    answer: 0
+    explanation: PCB 保存进程状态、寄存器上下文、调度信息、资源引用等。
+    source_anchor: 进程
+  - id: q02
+    type: single-choice
+    question: fork 的关键语义是什么？
+    options:
+      - 创建当前进程的子进程
+      - 删除当前进程
+      - 只加载新程序不复制进程
+      - 只能创建线程
+    answer: 0
+    explanation: fork 基于当前进程创建子进程，子进程获得相似的执行上下文。
+    source_anchor: 进程
+  - id: q03
+    type: single-choice
+    question: 写时复制解决了 fork 的什么成本问题？
+    options:
+      - 立即复制整块内存太昂贵
+      - 文件名太长
+      - CPU 频率太低
+      - 系统调用太少
+    answer: 0
+    explanation: COW 让父子进程先共享页面，只有写入时才复制，避免无谓的全量复制。
+    source_anchor: 上下文切换
+  - id: q04
+    type: single-choice
+    question: execve 的作用更接近哪一种？
+    options:
+      - 在当前进程壳中装载并执行新程序
+      - 复制当前进程
+      - 释放所有磁盘文件
+      - 调高线程优先级
+    answer: 0
+    explanation: execve 不创建新进程，而是把当前进程的程序映像替换为新程序。
+    source_anchor: 上下文切换
+  - id: q05
+    type: single-choice
+    question: 进程间通信存在的原因是什么？
+    options:
+      - 进程地址空间隔离后仍需要交换数据和协作
+      - 进程不能运行代码
+      - 文件系统无法保存数据
+      - CPU 不能调度多个进程
+    answer: 0
+    explanation: 隔离保证安全，但协作需要管道、信号、共享内存、socket 等 IPC 机制。
+    source_anchor: 进程
+  - id: q06
+    type: single-choice
+    question: 上下文切换为什么有成本？
+    options:
+      - 需要保存和恢复寄存器、地址空间等运行状态
+      - 因为文件名太长
+      - 因为所有线程都要重新编译
+      - 因为网络必须断开
+    answer: 0
+    explanation: 调度切换并非免费，需要保存当前进程上下文并恢复下一个进程上下文。
+    source_anchor: 上下文切换
+  - id: q07
+    type: single-choice
+    question: fork 后父子进程为什么看起来拥有各自内存？
+    options:
+      - 虚拟地址空间隔离，配合写时复制延迟复制物理页
+      - 因为物理内存立即完整复制两份
+      - 因为它们共享所有栈写入
+      - 因为 execve 自动复制内存
+    answer: 0
+    explanation: 父子进程虚拟空间相似，但物理页可先共享，写入时再复制。
+    source_anchor: 上下文切换
+  - id: q08
+    type: single-choice
+    question: execve 通常和 fork 搭配使用的原因是什么？
+    options:
+      - 先 fork 创建子进程，再 execve 在子进程中装载目标程序
+      - fork 会删除目标程序
+      - execve 只能在父进程中运行
+      - 二者都不能创建程序
+    answer: 0
+    explanation: shell 启动程序常见流程就是 fork 子进程，然后在子进程中 execve 新程序。
+    source_anchor: 上下文切换
+  - id: q09
+    type: single-choice
+    question: 管道通信适合哪类进程协作？
+    options:
+      - 一个进程输出作为另一个进程输入的流式协作
+      - 两个进程共享所有堆对象
+      - 进程修改彼此 PCB
+      - 直接绕过内核通信
+    answer: 0
+    explanation: 管道是经典 IPC，用于父子或相关进程之间的字节流传递。
+    source_anchor: 进程

@@ -1,0 +1,79 @@
+lesson_id: ch1-03
+questions:
+  - id: q01
+    type: single-choice
+    question: Linux “一切皆文件”不是说什么？
+    options:
+      - 很多资源可用文件接口访问
+      - 设备也可抽象为文件
+      - 所有系统对象本质上都是普通文本文件
+      - 统一接口能简化交互
+    answer: 2
+    explanation: “一切皆文件”强调接口抽象，不是说所有资源物理上都是普通文本。
+    source_anchor: 文件系统
+  - id: q02
+    type: single-choice
+    question: 根文件系统为什么需要一个统一的根？
+    options:
+      - 为了让所有路径从一个入口组织起来
+      - 为了禁止目录嵌套
+      - 为了让文件只能放在 /tmp
+      - 为了取消设备文件
+    answer: 0
+    explanation: 根目录提供统一命名空间，所有目录和挂载点都能从根向下定位。
+    source_anchor: 一切皆文件
+  - id: q03
+    type: single-choice
+    question: inode 主要保存什么？
+    options:
+      - 文件名字符串
+      - 文件元信息和数据块索引
+      - 浏览器缓存
+      - 进程调度策略
+    answer: 1
+    explanation: inode 记录文件权限、大小、时间、数据块位置等元信息；文件名通常由目录项维护。
+    source_anchor: inode
+  - id: q04
+    type: single-choice
+    question: 目录在文件系统中可以理解为什么？
+    options:
+      - 一种记录文件名到 inode 映射的特殊文件
+      - 只能存图片的容器
+      - CPU 寄存器
+      - 网络协议
+    answer: 0
+    explanation: 目录把名字映射到 inode，使路径查找成为逐级解析目录项的过程。
+    source_anchor: inode
+  - id: q05
+    type: single-choice
+    question: 理解文件系统时，路径解析的关键过程是什么？
+    options:
+      - 一次性读取整个硬盘
+      - 从根目录开始逐级查找目录项和 inode
+      - 直接由 CPU 生成文件内容
+      - 跳过目录只看扩展名
+    answer: 1
+    explanation: 路径如 /a/b/c 需要从根开始逐层查目录项，最终定位目标 inode。
+    source_anchor: 文件系统
+  - id: q06
+    type: single-choice
+    question: 为什么目录项和 inode 分离有价值？
+    options:
+      - 同一个 inode 可以被不同目录项引用，文件名和文件元信息解耦
+      - 目录项会保存完整文件内容
+      - inode 只保存文件名
+      - 这样可以取消权限系统
+    answer: 0
+    explanation: 目录项负责名字到 inode 的映射，inode 保存文件元信息，二者分离支持硬链接等机制。
+    source_anchor: inode
+  - id: q07
+    type: single-choice
+    question: 设备文件体现了 Linux 哪个设计取舍？
+    options:
+      - 用统一文件接口屏蔽设备差异
+      - 让设备必须保存为 PNG
+      - 禁止程序访问硬件
+      - 让目录不能嵌套
+    answer: 0
+    explanation: 设备文件把不同硬件抽象进文件接口，体现统一抽象带来的简化。
+    source_anchor: 文件系统

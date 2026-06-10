@@ -1,0 +1,112 @@
+lesson_id: ch1-04
+questions:
+  - id: q01
+    type: single-choice
+    question: 分段机制试图解决什么问题？
+    options:
+      - 把程序地址空间按逻辑区域组织
+      - 让所有内存都变成硬盘
+      - 取消虚拟地址
+      - 让 CPU 不访问内存
+    answer: 0
+    explanation: 分段按代码段、数据段等逻辑区域管理地址空间，反映程序结构。
+    source_anchor: 虚拟内存
+  - id: q02
+    type: single-choice
+    question: 分页机制相比单纯分段，核心优势是什么？
+    options:
+      - 按固定大小页管理，减少外部碎片并便于换入换出
+      - 只能管理代码段
+      - 禁止虚拟内存
+      - 每页大小随意变化
+    answer: 0
+    explanation: 固定大小页让内存分配和映射更规整，是现代虚拟内存管理的重要基础。
+    source_anchor: 分页
+  - id: q03
+    type: single-choice
+    question: 页表的作用是什么？
+    options:
+      - 记录虚拟页到物理页框的映射
+      - 保存文件名
+      - 记录线程优先级
+      - 只负责网络转发
+    answer: 0
+    explanation: CPU 访问虚拟地址时，需要通过页表找到对应物理地址。
+    source_anchor: 分页
+  - id: q04
+    type: single-choice
+    question: LRU 算法用于内存管理时主要回答什么问题？
+    options:
+      - 哪个页面应该被淘汰
+      - 哪个进程应该创建
+      - 哪个文件应该重命名
+      - 哪个用户应该登录
+    answer: 0
+    explanation: 当内存不足时，LRU 倾向淘汰最近最少使用的页面。
+    source_anchor: 分页
+  - id: q05
+    type: single-choice
+    question: malloc 一类内存管理为什么需要维护空闲块信息？
+    options:
+      - 为了复用已释放内存并减少频繁系统调用
+      - 为了禁止释放内存
+      - 为了把所有对象放进寄存器
+      - 为了跳过堆内存
+    answer: 0
+    explanation: 用户态内存分配器通常向系统申请大块内存，再在内部维护空闲块进行复用。
+    source_anchor: 分页
+  - id: q06
+    type: single-choice
+    question: 虚拟地址空间为什么重要？
+    options:
+      - 让每个进程看到独立连续的地址视图
+      - 让物理内存无限大
+      - 让 CPU 只能访问硬盘
+      - 让所有进程共享一个栈
+    answer: 0
+    explanation: 虚拟地址空间隔离进程并简化程序视角，真实映射由页表等机制完成。
+    source_anchor: 地址空间
+  - id: q07
+    type: single-choice
+    question: 分页带来的一个典型代价是什么？
+    options:
+      - 地址转换需要页表，可能引入额外开销
+      - 无法进行内存保护
+      - 不能换入换出
+      - 所有页面大小不同
+    answer: 0
+    explanation: 分页简化分配但引入地址翻译成本，因此需要 TLB 等硬件优化。
+    source_anchor: 分页
+  - id: q08
+    type: single-choice
+    question: 为什么会有缺页异常？
+    options:
+      - 访问的虚拟页当前没有映射到可用物理页
+      - CPU 不支持加法
+      - 文件名不存在
+      - 线程优先级太低
+    answer: 0
+    explanation: 当页不在内存或权限不符时会触发异常，由系统决定加载、分配或报错。
+    source_anchor: 分页
+  - id: q09
+    type: single-choice
+    question: 用户态 malloc 与系统调用分配的关系是什么？
+    options:
+      - malloc 通常在用户态管理内存池，必要时向内核申请更多内存
+      - malloc 每次都直接创建新进程
+      - malloc 只能分配寄存器
+      - malloc 和内核完全无关
+    answer: 0
+    explanation: 内存分配器为了效率会批量向系统申请，再在用户态维护空闲块。
+    source_anchor: 分页
+  - id: q10
+    type: single-choice
+    question: 内存保护为什么依赖地址映射机制？
+    options:
+      - 不同进程虚拟地址可映射到不同物理区域并受权限控制
+      - 因为文件系统会自动保护内存
+      - 因为所有进程共享同一页表
+      - 因为 CPU 不执行内存访问
+    answer: 0
+    explanation: 页表项可携带权限信息，使系统能限制读写执行等访问。
+    source_anchor: 地址空间

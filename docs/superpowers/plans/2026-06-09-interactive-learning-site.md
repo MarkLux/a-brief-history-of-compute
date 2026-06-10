@@ -18,6 +18,8 @@ This plan implements the first complete vertical slice of the approved spec:
 - Ch1-Ch4 all existing Markdown articles are represented in the course manifest.
 - Starter metadata, quizzes, and practice tasks are generated for every lesson from a deterministic template, then can be deepened manually in follow-up content-only tasks.
 - Claude Code teacher skills read the same local files as the website and write only to `.learning-cache/`.
+- Target learners have frontend development background. Java/JVM and backend concepts must start from basics and gradually deepen, using JS/V8/browser/runtime analogies where helpful.
+- Implementation phase should not create commits unless the user explicitly asks. Each task ends with a verification checkpoint instead of `git commit`.
 
 ## File Structure Map
 
@@ -355,12 +357,15 @@ npm run test
 
 Expected: Vitest exits successfully with a message equivalent to “No test files found” or “0 tests”.
 
-- [ ] **Step 11: Commit Task 1**
+- [ ] **Step 11: Verification checkpoint**
+
+Run:
 
 ```bash
-git add .gitignore package.json package-lock.json astro.config.mjs tsconfig.json tailwind.config.mjs vitest.config.ts src/styles/global.css src/layouts/BaseLayout.astro
-git commit -m "chore: initialize astro learning site tooling"
+npm run test
 ```
+
+Expected: Vitest exits successfully. Do NOT commit. All files remain in working tree for user review.
 
 ---
 
@@ -796,12 +801,16 @@ npm run validate:content
 
 Expected: FAIL because lesson, quiz, and practice YAML files do not exist yet. The output should include errors like `Missing lesson metadata: content/lessons/ch1-01.yaml`.
 
-- [ ] **Step 7: Commit Task 2**
+- [ ] **Step 7: Verification checkpoint**
+
+Run:
 
 ```bash
-git add content/course-manifest.yaml scripts/validate-content.mjs tests/content/validate-content.test.mjs
-git commit -m "feat: add course manifest validation"
+npm run test -- tests/content/validate-content.test.mjs
+npm run validate:content
 ```
+
+Expected: Tests pass. Content validation prints expected warnings. Do NOT commit.
 
 ---
 
@@ -845,10 +854,10 @@ const CONCEPTS_BY_LESSON = {
   'ch1-03': ['文件系统', 'inode', '一切皆文件'],
   'ch1-04': ['虚拟内存', '分页', '地址空间'],
   'ch1-05': ['进程', '调度', '上下文切换'],
-  'ch2-01': ['高级语言', '编译器', '抽象层次'],
-  'ch2-02': ['面向对象', '封装', '多态'],
-  'ch2-03': ['内存管理', '垃圾回收', '对象生命周期'],
-  'ch2-04': ['线程', '并发', '同步'],
+  'ch2-01': ['高级语言', '编译器', '运行时'],
+  'ch2-02': ['从 JavaScript 对象到类', '封装', '多态'],
+  'ch2-03': ['从 V8 GC 到 JVM GC', '堆内存', '对象生命周期'],
+  'ch2-04': ['从浏览器事件循环到线程', '并发', '同步'], 
   'ch3-04': ['分布式系统', '一致性', '容错'],
   'ch4-01': ['虚拟化', '容器', '隔离'],
   'ch4-02': ['云计算', '资源池化', '弹性'],
@@ -1057,12 +1066,15 @@ npm run test -- tests/content/validate-content.test.mjs
 
 Expected: PASS.
 
-- [ ] **Step 5: Commit Task 3**
+- [ ] **Step 5: Verification checkpoint**
+
+Run:
 
 ```bash
-git add scripts/generate-starter-content.mjs content/lessons content/quizzes content/practice
-git commit -m "feat: generate starter lesson content"
+npm run validate:content
 ```
+
+Expected: `Content validation passed with 0 warning(s).` Do NOT commit.
 
 ---
 
@@ -1331,12 +1343,15 @@ npm run test -- tests/lib/course.test.ts
 
 Expected: PASS for all 4 tests.
 
-- [ ] **Step 5: Commit Task 4**
+- [ ] **Step 5: Verification checkpoint**
+
+Run:
 
 ```bash
-git add src/lib/course.ts tests/lib/course.test.ts
-git commit -m "feat: add course loading library"
+npm run test -- tests/lib/course.test.ts
 ```
+
+Expected: PASS for all course loader tests. Do NOT commit.
 
 ---
 
@@ -1499,12 +1514,15 @@ npm run test -- tests/lib/progress.test.ts
 
 Expected: PASS for all 5 tests.
 
-- [ ] **Step 5: Commit Task 5**
+- [ ] **Step 5: Verification checkpoint**
+
+Run:
 
 ```bash
-git add src/lib/progress.ts tests/lib/progress.test.ts
-git commit -m "feat: add local learning progress storage"
+npm run test -- tests/lib/progress.test.ts
 ```
+
+Expected: PASS for all progress storage tests. Do NOT commit.
 
 ---
 
@@ -1657,12 +1675,15 @@ npm run test -- tests/components/QuizPanel.test.tsx
 
 Expected: PASS for both tests.
 
-- [ ] **Step 5: Commit Task 6**
+- [ ] **Step 5: Verification checkpoint**
+
+Run:
 
 ```bash
-git add src/components/QuizPanel.tsx tests/components/QuizPanel.test.tsx
-git commit -m "feat: add interactive quiz panel"
+npm run test -- tests/components/QuizPanel.test.tsx
 ```
+
+Expected: PASS for both QuizPanel tests. Do NOT commit.
 
 ---
 
@@ -1858,12 +1879,16 @@ npm run typecheck
 
 Expected: QuizPanel tests PASS and Astro typecheck exits with code 0.
 
-- [ ] **Step 5: Commit Task 7**
+- [ ] **Step 5: Verification checkpoint**
+
+Run:
 
 ```bash
-git add src/components/ConceptMap.tsx src/components/PracticeTask.tsx src/components/ReviewCard.tsx
-git commit -m "feat: add learning interaction components"
+npm run test -- tests/components/QuizPanel.test.tsx
+npm run typecheck
 ```
+
+Expected: QuizPanel tests PASS and typecheck exits with code 0. Do NOT commit.
 
 ---
 
@@ -2173,19 +2198,15 @@ npm run build
 
 Expected: content validation passes and Astro builds `dist/` successfully.
 
-- [ ] **Step 8: Commit Task 8**
+- [ ] **Step 8: Verification checkpoint**
+
+Run:
 
 ```bash
-git add src/pages
- git commit -m "feat: add static learning site pages"
+npm run build
 ```
 
-If the command above fails because of the accidental newline after `src/pages`, run:
-
-```bash
-git add src/pages
-git commit -m "feat: add static learning site pages"
-```
+Expected: content validation passes and Astro builds `dist/` successfully. Do NOT commit.
 
 ---
 
@@ -2417,12 +2438,15 @@ git check-ignore .learning-cache/progress.json
 
 Expected: output contains `.learning-cache/progress.json`.
 
-- [ ] **Step 7: Commit Task 9**
+- [ ] **Step 7: Verification checkpoint**
+
+Run:
 
 ```bash
-git add .claude/CLAUDE.md .claude/skills
-git commit -m "feat: add claude code teacher skills"
+git check-ignore .learning-cache/progress.json
 ```
+
+Expected: output contains `.learning-cache/progress.json`. Do NOT commit.
 
 ---
 
@@ -2516,12 +2540,15 @@ Open the URL and manually verify:
 
 Stop the dev server with `Ctrl+C`.
 
-- [ ] **Step 4: Commit Task 10**
+- [ ] **Step 4: Verification checkpoint**
+
+Run:
 
 ```bash
-git add readme.md
-git commit -m "docs: add interactive learning usage"
+git status --short
 ```
+
+Expected: implementation files are present as working tree changes for user review. Do NOT commit.
 
 ---
 
@@ -2576,14 +2603,9 @@ Prepare a final summary that includes:
 - `.learning-cache/` ignored.
 - Verification command results.
 
-- [ ] **Step 5: Commit verification-only changes if any**
+- [ ] **Step 5: Leave implementation uncommitted for review**
 
-If the final verification caused no file changes, skip this step. If README formatting or generated content was adjusted during verification, commit:
-
-```bash
-git add readme.md content src .claude scripts tests package.json package-lock.json astro.config.mjs tsconfig.json tailwind.config.mjs vitest.config.ts .gitignore
-git commit -m "chore: finalize interactive learning site"
-```
+Do not commit implementation changes. Report the final `git status --short` output and ask the user whether they want to review, revise, or commit in a later step.
 
 ---
 

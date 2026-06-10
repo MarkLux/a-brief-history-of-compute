@@ -1,0 +1,35 @@
+lesson_id: ch2-01
+tasks:
+  - id: p01
+    type: pipeline
+    prompt: 画出 Java 代码运行链路：`.java` 源码 → `javac` → `.class` 字节码 → JVM 解释执行 → JIT 热点优化 → 机器码。每一步写 1 句话。
+    rubric:
+      - 包含源码、字节码、JVM、JIT
+      - 说明 Java 不是纯编译或纯解释
+      - 说明跨平台来自 JVM 适配层
+    answer:
+      - 答案应覆盖：包含源码、字节码、JVM、JIT
+      - 答案应覆盖：说明 Java 不是纯编译或纯解释
+      - 答案应覆盖：说明跨平台来自 JVM 适配层
+  - id: p02
+    type: compare
+    prompt: 从前端视角比较 Java 字节码和 JavaScript 被 V8 执行的中间表示：相同点是都有运行时，差异是 Java 有显式 `.class` 产物。
+    rubric:
+      - 能类比 V8/浏览器运行时
+      - 说明 `.class` 字节码的存在
+      - 指出类比边界
+    answer:
+      - 答案应覆盖：能类比 V8/浏览器运行时
+      - 答案应覆盖：说明 `.class` 字节码的存在
+      - 答案应覆盖：指出类比边界
+  - id: p03
+    type: explain
+    prompt: 用自己的话解释为什么云原生时代会重新关注 AOT，而不是只依赖 JIT。
+    rubric:
+      - 提到启动时间
+      - 提到内存/CPU 开销
+      - 说明 JIT 峰值性能与冷启动的取舍
+    answer:
+      - 答案应覆盖：提到启动时间
+      - 答案应覆盖：提到内存/CPU 开销
+      - 答案应覆盖：说明 JIT 峰值性能与冷启动的取舍

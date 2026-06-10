@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getChapters, getLessonRouteParts } from '../../lib/course';
+const chapters = getChapters();
+---
+<BaseLayout title="章节总览 · 计算简史">
+  <h1 class="text-3xl font-bold">章节总览</h1>
+  <div class="mt-6 space-y-6">
+    {chapters.map((chapter) => (
+      <section class="lesson-card p-5">
+        <div class="flex items-center justify-between gap-4">
+          <div>
+            <p class="text-sm font-semibold text-accent">{chapter.id.toUpperCase()}</p>
+            <h2 class="text-2xl font-bold">{chapter.title}</h2>
+          </div>
+          <a class="text-sm font-semibold text-accent" href={`/chapters/${chapter.id}`}>进入章节 →</a>
+        </div>
+        <ol class="mt-4 grid gap-3 md:grid-cols-2">
+          {chapter.lessons.map((lesson) => {
+            const route = getLessonRouteParts(lesson.id);
+            return (
+              <li>
+                <a class="block rounded-xl bg-paper px-4 py-3 hover:bg-white" href={`/chapters/${route.chapter}/lesson/${route.lesson}`}>
+                  <span class="text-sm text-muted">{lesson.id}</span>
+                  <span class="ml-2 font-semibold">{lesson.title}</span>
+                </a>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+    ))}
+  </div>
+</BaseLayout>

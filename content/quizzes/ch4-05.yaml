@@ -1,0 +1,112 @@
+lesson_id: ch4-05
+questions:
+  - id: q01
+    type: single-choice
+    question: Controller 的核心工作模式是什么？
+    options:
+      - Reconcile：观察实际状态并调整到期望状态
+      - 只执行一次脚本后退出
+      - 只负责保存镜像
+      - 只响应浏览器点击
+    answer: 0
+    explanation: Controller 不是一次性命令，而是持续运行的控制循环。
+    source_anchor: 控制循环
+  - id: q02
+    type: single-choice
+    question: Informer 与 List-Watch 帮 Controller 解决什么问题？
+    options:
+      - 高效获取和订阅资源变化
+      - 编译 Go 代码
+      - 管理用户密码
+      - 压缩容器镜像
+    answer: 0
+    explanation: Informer 缓存资源并通过 List-Watch 感知变化，减少频繁直接查询 apiserver。
+    source_anchor: 控制循环
+  - id: q03
+    type: single-choice
+    question: Operator 模式的关键思想是什么？
+    options:
+      - 把运维经验编码进自定义控制器
+      - 把所有资源改成 Pod
+      - 禁用 CRD
+      - 只运行手动脚本
+    answer: 0
+    explanation: Operator 用控制器封装复杂应用的部署、扩缩、故障恢复等运维逻辑。
+    source_anchor: 扩展机制
+  - id: q04
+    type: single-choice
+    question: CRD 的作用是什么？
+    options:
+      - 扩展 Kubernetes API，定义新的资源类型
+      - 删除内置资源
+      - 替代所有 Controller
+      - 只做网络代理
+    answer: 0
+    explanation: CRD 让 Kubernetes 能管理自定义领域对象，是 Operator 的基础之一。
+    source_anchor: 扩展机制
+  - id: q05
+    type: single-choice
+    question: Webhook 常用于什么扩展点？
+    options:
+      - 在资源创建/更新时做校验或默认值注入
+      - 替代 etcd 存储
+      - 直接运行容器镜像
+      - 关闭 apiserver
+    answer: 0
+    explanation: Admission Webhook 能在请求进入持久化前修改或校验资源。
+    source_anchor: operator
+  - id: q06
+    type: single-choice
+    question: Reconcile 循环为什么要反复执行？
+    options:
+      - 集群实际状态会持续变化，需要不断校正
+      - 一次执行永远能解决所有未来问题
+      - 它只负责打印日志
+      - 它不能读取状态
+    answer: 0
+    explanation: 分布式集群充满变化，控制器必须持续观察和修正。
+    source_anchor: 控制循环
+  - id: q07
+    type: single-choice
+    question: Client 在 Controller 中通常承担什么职责？
+    options:
+      - 和 apiserver 交互，读取和修改资源对象
+      - 直接运行容器进程
+      - 替代 etcd 存储
+      - 编译 CRD
+    answer: 0
+    explanation: 控制器通过 Kubernetes client 操作 API 对象，而不是直接改 etcd。
+    source_anchor: 控制循环
+  - id: q08
+    type: single-choice
+    question: Controller Manager 的意义是什么？
+    options:
+      - 集中运行和管理多个内置控制器
+      - 替代所有业务 Pod
+      - 只做网页代理
+      - 保存容器镜像
+    answer: 0
+    explanation: Controller Manager 承载多种控制循环，是 Kubernetes 控制面的关键组件。
+    source_anchor: 控制循环
+  - id: q09
+    type: single-choice
+    question: KubeBuilder 帮开发者简化了什么？
+    options:
+      - 编写 CRD/Controller/Operator 的脚手架和工程复杂度
+      - 运行所有 Pod
+      - 替代 kubectl
+      - 删除 webhook
+    answer: 0
+    explanation: KubeBuilder 提供开发 Operator 的工程化框架。
+    source_anchor: operator
+  - id: q10
+    type: single-choice
+    question: OpenKruise SidecarSet 体现了 Operator/CRD 的什么能力？
+    options:
+      - 把特定运维/发布能力扩展成 Kubernetes 原生资源
+      - 只能替换 Node
+      - 禁止 sidecar
+      - 只用于静态网页
+    answer: 0
+    explanation: SidecarSet 通过自定义资源和控制器扩展 Kubernetes 工作负载管理能力。
+    source_anchor: 扩展机制

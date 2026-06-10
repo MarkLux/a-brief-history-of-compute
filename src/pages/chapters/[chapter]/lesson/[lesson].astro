@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import ConceptMap from '../../../../components/ConceptMap';
+import PracticeTask from '../../../../components/PracticeTask';
+import QuizPanel from '../../../../components/QuizPanel';
+import ReviewCard from '../../../../components/ReviewCard';
+import { getAllLessons, getLessonBundle, getLessonRouteParts } from '../../../../lib/course';
+
+export function getStaticPaths() {
+  return getAllLessons().map((lesson) => {
+    const route = getLessonRouteParts(lesson.id);
+    return { params: route };
+  });
+}
+
+const lessonId = `${Astro.params.chapter}-${Astro.params.lesson}`;
+const bundle = getLessonBundle(lessonId);
+const previousRoute = bundle.previousLesson ? getLessonRouteParts(bundle.previousLesson.id) : undefined;
+const nextRoute = bundle.nextLesson ? getLessonRouteParts(bundle.nextLesson.id) : undefined;
+---
+<BaseLayout title={`${bundle.lesson.title} · 计算简史`}>
+  <div class="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
+    <div class="min-w-0">
+      <a class="text-sm text-accent" href={`/chapters/${bundle.lesson.chapter_id}`}>← 返回章节</a>
+      <section class="mt-4 lesson-card p-6">
+        <p class="text-sm font-semibold text-accent">{bundle.lesson.id} · {bundle.lesson.estimated_minutes} 分钟</p>
+        <h1 class="mt-2 text-3xl font-bold">{bundle.lesson.title}</h1>
+        <div class="mt-5 rounded-xl bg-amber-50 p-4 text-amber-950">
+          <p class="font-bold">导读问题</p>
+          <p class="mt-2">{bundle.lesson.teacher_flow.opening_question}</p>
+        </div>
+      </section>
+
+      <article class="mt-6 lesson-card p-6" set:html={bundle.markdown.html} />
+
+      <div class="mt-6 grid gap-6">
+        <ConceptMap concepts={bundle.lesson.concepts} client:load />
+        <QuizPanel quiz={bundle.quiz} client:load />
+        <PracticeTask practice={bundle.practice} client:load />
+        <ReviewCard lesson={bundle.lesson} client:load />
+      </div>
+
+      <nav class="mt-8 flex justify-between gap-4 text-sm font-semibold text-accent">
+        {previousRoute ? <a href={`/chapters/${previousRoute.chapter}/lesson/${previousRoute.lesson}`}>← {bundle.previousLesson?.title}</a> : <span />}
+        {nextRoute ? <a href={`/chapters/${nextRoute.chapter}/lesson/${nextRoute.lesson}`}>{bundle.nextLesson?.title} →</a> : <span />}
+      </nav>
+    </div>
+
+    <aside class="lesson-card h-max p-5 lg:sticky lg:top-6">
+      <h2 class="font-bold">本课概念</h2>
+      <div class="mt-3 flex flex-wrap gap-2">
+        {bundle.lesson.concepts.map((concept) => <span class="rounded-full bg-paper px-3 py-1 text-sm text-accent">{concept.name}</span>)}
+      </div>
+      <h2 class="mt-6 font-bold">文章小节</h2>
+      <ol class="mt-3 space-y-2 text-sm text-muted">
+        {bundle.markdown.headings.slice(0, 8).map((heading) => (
+          <li>
+            <a class="hover:text-accent" href={`#${heading.slug}`}>{heading.text}</a>
+          </li>
+        ))}
+      </ol>
+    </aside>
+  </div>
+</BaseLayout>

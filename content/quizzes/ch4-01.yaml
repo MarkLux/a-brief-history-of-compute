@@ -1,0 +1,112 @@
+lesson_id: ch4-01
+questions:
+  - id: q01
+    type: single-choice
+    question: 传统虚拟化的核心思想是什么？
+    options:
+      - 在物理机上虚拟出多套完整机器环境
+      - 让所有应用共享一个进程
+      - 只复制源代码
+      - 取消操作系统
+    answer: 0
+    explanation: 传统虚拟化通过虚拟机抽象硬件，让多个 OS 环境运行在同一物理机上。
+    source_anchor: 虚拟化
+  - id: q02
+    type: single-choice
+    question: 容器技术和传统虚拟机的重要区别是什么？
+    options:
+      - 容器共享宿主机内核，通过隔离机制提供运行环境
+      - 容器必须运行完整客户机 OS
+      - 容器不能隔离进程
+      - 容器只能运行 Java
+    answer: 0
+    explanation: 容器通常不虚拟整套硬件和内核，而是用 namespace/cgroups 等隔离进程环境。
+    source_anchor: 容器
+  - id: q03
+    type: single-choice
+    question: cgroups 主要负责什么？
+    options:
+      - 限制和统计资源使用
+      - 解析 Java 字节码
+      - 生成网页 DOM
+      - 管理 DNS 域名
+    answer: 0
+    explanation: cgroups 用于 CPU、内存等资源限制、统计和控制。
+    source_anchor: 隔离
+  - id: q04
+    type: single-choice
+    question: namespace 主要负责什么？
+    options:
+      - 隔离进程看到的系统资源视图
+      - 限制 CPU 百分比
+      - 编译二进制文件
+      - 生成容器镜像层
+    answer: 0
+    explanation: namespace 让进程拥有独立的 PID、网络、挂载点等视图。
+    source_anchor: 隔离
+  - id: q05
+    type: single-choice
+    question: Docker 镜像交付的关键价值是什么？
+    options:
+      - 把应用及其运行环境打包成可分发的 rootfs 层
+      - 只复制一个 README
+      - 替代所有编程语言
+      - 让应用只能在本机运行
+    answer: 0
+    explanation: 镜像把依赖和文件系统环境固化下来，改写了软件交付方式。
+    source_anchor: 容器
+  - id: q06
+    type: single-choice
+    question: 半虚拟化和硬件辅助虚拟化都在试图优化什么？
+    options:
+      - 传统虚拟化的性能和硬件模拟成本
+      - 前端包体积
+      - Java 类加载顺序
+      - 文件名长度
+    answer: 0
+    explanation: 这些方案都围绕降低虚拟化成本、提升性能展开。
+    source_anchor: 虚拟化
+  - id: q07
+    type: single-choice
+    question: 容器为什么启动通常比虚拟机快？
+    options:
+      - 不需要启动完整客户机内核，只是启动隔离后的进程环境
+      - 因为容器没有文件系统
+      - 因为容器不需要镜像
+      - 因为容器只能运行空程序
+    answer: 0
+    explanation: 容器共享宿主机内核，避免完整 OS 启动成本。
+    source_anchor: 容器
+  - id: q08
+    type: single-choice
+    question: rootfs 在容器镜像中扮演什么角色？
+    options:
+      - 提供容器进程看到的根文件系统内容
+      - 负责 CPU 调度
+      - 保存 Kubernetes API 对象
+      - 替代 namespace
+    answer: 0
+    explanation: 镜像最终提供一套文件系统视图，容器进程以它作为运行环境。
+    source_anchor: 容器
+  - id: q09
+    type: single-choice
+    question: RunC 这类运行时解决什么问题？
+    options:
+      - 按 OCI 规范真正创建和运行容器
+      - 编写业务代码
+      - 替代镜像仓库
+      - 管理浏览器缓存
+    answer: 0
+    explanation: 底层运行时负责把容器配置落实为 namespace/cgroups 等系统调用。
+    source_anchor: 隔离
+  - id: q10
+    type: single-choice
+    question: 镜像分层为什么有利于交付？
+    options:
+      - 相同层可复用和缓存，减少分发成本
+      - 每次都必须全量复制
+      - 只能保存一个文件
+      - 禁止版本管理
+    answer: 0
+    explanation: 分层让基础系统、依赖、应用代码可复用，提高构建和分发效率。
+    source_anchor: 容器

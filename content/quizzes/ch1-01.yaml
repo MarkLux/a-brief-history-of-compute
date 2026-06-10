@@ -1,0 +1,79 @@
+lesson_id: ch1-01
+questions:
+  - id: q01
+    type: single-choice
+    question: ENIAC 相比早期机械计算设备，最关键的新能力是什么？
+    options:
+      - 只能做固定加法
+      - 可以进行多种运算、引入存储器并支持编程
+      - 完全不需要人工操作
+      - 已经拥有现代图形界面
+    answer: 1
+    explanation: 文章强调 ENIAC 的突破在于通用计算、存储器和可编程性，这标志着人机交互从单一机械操作走向程序控制。
+    source_anchor: 人机交互
+  - id: q02
+    type: single-choice
+    question: 冯·诺伊曼结构中“程序和数据共享存储”意味着什么？
+    options:
+      - 程序本身也以数据形式放在存储器中
+      - 程序只能写在纸带上
+      - CPU 不需要内存
+      - 数据必须直接存在寄存器中
+    answer: 0
+    explanation: 程序存储方式让程序和数据都进入统一存储空间，这是现代计算机能灵活执行不同程序的基础。
+    source_anchor: 操作系统
+  - id: q03
+    type: single-choice
+    question: 为什么寄存器不能解决所有存储问题？
+    options:
+      - 寄存器速度太慢
+      - 寄存器容量很小，无法承载大量程序和数据
+      - 寄存器只能存图片
+      - 寄存器不能被 CPU 访问
+    answer: 1
+    explanation: 文章指出寄存器跟得上 CPU 速度，但容量有限，由此引出存储层级和速度/容量矛盾。
+    source_anchor: 操作系统
+  - id: q04
+    type: single-choice
+    question: 中断机制解决的核心矛盾是什么？
+    options:
+      - CPU 与外设速度不匹配导致 CPU 等待浪费
+      - 机器语言不好记
+      - 程序太多无法分类
+      - 硬盘容量不够
+    answer: 0
+    explanation: 中断允许 CPU 在等待慢速硬件时先做别的事情，等硬件完成后再回来处理。
+    source_anchor: 批处理
+  - id: q05
+    type: single-choice
+    question: 操作系统出现的主要原因是什么？
+    options:
+      - 替代所有应用程序
+      - 把内存管理、任务调度等繁琐控制抽象成基础程序
+      - 让计算机只能运行一个程序
+      - 让程序员直接写更多机器码
+    answer: 1
+    explanation: 随着任务复杂度提高，人工直接控制硬件不可持续，操作系统把通用资源管理抽象出来。
+    source_anchor: 操作系统
+  - id: q06
+    type: single-choice
+    question: 为什么“存储器”是 ENIAC 之后计算机演进中的关键能力？
+    options:
+      - 它让程序和中间数据可以被保存并反复使用
+      - 它让 CPU 不再需要执行指令
+      - 它让纸带速度变快
+      - 它让计算机只能做一种计算
+    answer: 0
+    explanation: 存储器让程序和数据能够被保存，配合程序存储方式，使计算机从固定计算装置走向通用可编程机器。
+    source_anchor: 操作系统
+  - id: q07
+    type: single-choice
+    question: 从纸带到操作系统，人机交互方式的变化主线是什么？
+    options:
+      - 人直接操作硬件细节越来越少，抽象层越来越高
+      - 人需要记住更多二进制
+      - 机器越来越不能编程
+      - 交互方式始终没有变化
+    answer: 0
+    explanation: 文章主线是交互抽象不断提高：从物理输入、机器语言到操作系统提供统一接口。
+    source_anchor: 人机交互

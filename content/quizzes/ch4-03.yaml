@@ -1,0 +1,112 @@
+lesson_id: ch4-03
+questions:
+  - id: q01
+    type: single-choice
+    question: Kubernetes 的核心定位是什么？
+    options:
+      - 容器编排系统，管理应用在集群中的运行状态
+      - 单机脚本解释器
+      - 前端 UI 框架
+      - 数据库存储引擎
+    answer: 0
+    explanation: Kubernetes 负责在集群中调度和管理容器化应用。
+    source_anchor: pod
+  - id: q02
+    type: single-choice
+    question: 声明式 API 的关键思想是什么？
+    options:
+      - 用户描述期望状态，系统持续让实际状态逼近期望状态
+      - 用户逐条写所有执行命令
+      - 系统只保存日志
+      - 所有对象必须手动 SSH 修改
+    answer: 0
+    explanation: 声明式 API 关注 desired state，控制器负责 reconciliation。
+    source_anchor: 声明式-api
+  - id: q03
+    type: single-choice
+    question: Pod 为什么是 Kubernetes 的基础调度单位？
+    options:
+      - 它封装一个或多个需要共同调度的容器及共享上下文
+      - 它就是单个 Docker 镜像
+      - 它只用于暴露外网入口
+      - 它是物理机器
+    answer: 0
+    explanation: Pod 表达一组紧密协作容器的共同生命周期、网络和存储上下文。
+    source_anchor: pod
+  - id: q04
+    type: single-choice
+    question: Service 解决的主要问题是什么？
+    options:
+      - 为动态变化的 Pod 提供稳定访问入口
+      - 保存容器镜像
+      - 编译 YAML
+      - 替代控制器
+    answer: 0
+    explanation: Pod 会变化，Service 通过选择器和虚拟入口提供稳定访问。
+    source_anchor: 声明式-api
+  - id: q05
+    type: single-choice
+    question: Ingress 通常用于什么场景？
+    options:
+      - 管理集群外部 HTTP/HTTPS 流量进入服务
+      - 限制容器 CPU
+      - 保存持久卷数据
+      - 创建 etcd 集群
+    answer: 0
+    explanation: Ingress 提供七层入口路由能力，把外部请求导向集群内服务。
+    source_anchor: 声明式-api
+  - id: q06
+    type: single-choice
+    question: Node 和 Cluster 的关系是什么？
+    options:
+      - Cluster 由多个 Node 组成，Node 承载实际工作负载
+      - Node 是 Cluster 的网络端口
+      - Cluster 只能有一个 Node
+      - Node 是 Pod 内的容器
+    answer: 0
+    explanation: 集群是整体资源池，节点是实际运行 Pod 的机器。
+    source_anchor: pod
+  - id: q07
+    type: single-choice
+    question: ReplicaSet 的职责是什么？
+    options:
+      - 维持指定数量的 Pod 副本
+      - 对外暴露七层路由
+      - 保存持久化数据
+      - 编译镜像
+    answer: 0
+    explanation: ReplicaSet 通过控制循环保证实际 Pod 副本数符合期望。
+    source_anchor: pod
+  - id: q08
+    type: single-choice
+    question: Deployment 相比 ReplicaSet 更高一层的价值是什么？
+    options:
+      - 管理发布、回滚等工作负载生命周期
+      - 直接替代容器运行时
+      - 只提供 DNS
+      - 只管理磁盘
+    answer: 0
+    explanation: Deployment 封装 ReplicaSet，提供滚动更新、回滚等应用管理能力。
+    source_anchor: pod
+  - id: q09
+    type: single-choice
+    question: Persistent Volume 解决什么问题？
+    options:
+      - Pod 生命周期短暂但数据需要独立持久存在
+      - Service 需要公网入口
+      - Controller 需要编译
+      - 镜像需要压缩
+    answer: 0
+    explanation: PV/PVC 把存储生命周期从 Pod 中解耦出来。
+    source_anchor: 声明式-api
+  - id: q10
+    type: single-choice
+    question: 声明式 API 为什么适合大规模集群管理？
+    options:
+      - 用户描述目标，系统自动持续修正实际状态
+      - 用户必须手动 SSH 到每台机器
+      - 每个 Pod 都只能手写脚本
+      - 系统不保存状态
+    answer: 0
+    explanation: 声明式 API 与控制器配合，能把大量运维动作交给平台自动完成。
+    source_anchor: 声明式-api

@@ -1,0 +1,123 @@
+lesson_id: ch3-04
+questions:
+  - id: q01
+    type: single-choice
+    question: 分布式系统出现的根本背景是什么？
+    options:
+      - 单机资源和可靠性难以满足业务增长
+      - 所有程序必须写成网页
+      - 数据库不能存数据
+      - 网络永远可靠
+    answer: 0
+    explanation: 当单机性能、容量、可靠性不足时，需要多个节点协作形成分布式系统。
+    source_anchor: 分布式系统
+  - id: q02
+    type: single-choice
+    question: RPC 解决了什么交互问题？
+    options:
+      - 让调用远程服务像调用本地函数一样
+      - 让所有服务共享内存
+      - 取消网络传输
+      - 只用于图片加载
+    answer: 0
+    explanation: RPC 封装网络通信、序列化等细节，提供类似本地调用的体验。
+    source_anchor: 分布式系统
+  - id: q03
+    type: single-choice
+    question: 服务发现的作用是什么？
+    options:
+      - 帮助调用方找到目标服务实例地址
+      - 保存网页 CSS
+      - 执行垃圾回收
+      - 替代负载均衡算法
+    answer: 0
+    explanation: 服务实例动态变化时，调用方需要通过注册中心或发现机制找到可用实例。
+    source_anchor: 一致性
+  - id: q04
+    type: single-choice
+    question: 令牌桶限流的核心思想是什么？
+    options:
+      - 按固定速率生成令牌，请求拿到令牌才可通过
+      - 请求越多越不限制
+      - 只限制静态文件
+      - 把所有请求放进数据库
+    answer: 0
+    explanation: 令牌桶用令牌生成速率控制长期流量，同时允许一定突发。
+    source_anchor: 容错
+  - id: q05
+    type: single-choice
+    question: CAP 定理中的取舍发生在什么条件下？
+    options:
+      - 网络分区出现时，一致性和可用性难以同时保证
+      - 单机运行时
+      - 没有数据时
+      - 浏览器渲染 CSS 时
+    answer: 0
+    explanation: CAP 讨论分布式系统在网络分区下 C 与 A 的取舍。
+    source_anchor: 容错
+  - id: q06
+    type: single-choice
+    question: 负载均衡除了分摊流量，还要考虑什么？
+    options:
+      - 实例健康、权重、故障摘除和调用策略
+      - 只按文件名排序
+      - 只发给第一个实例
+      - 只服务静态资源
+    answer: 0
+    explanation: 分布式调用中负载均衡需要结合服务发现和健康状态。
+    source_anchor: 一致性
+  - id: q07
+    type: single-choice
+    question: 为什么 RPC 需要序列化？
+    options:
+      - 跨进程/网络传输必须把内存对象编码成字节流
+      - 因为所有对象都是图片
+      - 因为网络只能传函数指针
+      - 因为服务端不能解析文本
+    answer: 0
+    explanation: RPC 要把调用参数和返回值转成可传输格式，再在另一端还原。
+    source_anchor: 分布式系统
+  - id: q08
+    type: single-choice
+    question: 断路器模式解决的是什么级联风险？
+    options:
+      - 下游持续失败时，上游继续重试会拖垮更多服务
+      - 单机 CPU 太快
+      - 网页 CSS 太多
+      - 对象无法 GC
+    answer: 0
+    explanation: 熔断通过快速失败保护系统，避免故障扩散。
+    source_anchor: 容错
+  - id: q09
+    type: single-choice
+    question: 分布式事务为什么比本地事务难？
+    options:
+      - 参与者分布在不同节点，网络失败和部分成功都要处理
+      - 因为数据库不能回滚
+      - 因为事务只能写文件
+      - 因为所有节点共享同一内存
+    answer: 0
+    explanation: 网络不可靠和节点独立失败让一致提交变复杂。
+    source_anchor: 容错
+  - id: q10
+    type: single-choice
+    question: Raft 协议主要试图解决什么？
+    options:
+      - 多节点日志复制和一致性决策
+      - 单机内存分配
+      - 前端组件渲染
+      - 文件名映射 inode
+    answer: 0
+    explanation: Raft 通过 leader、日志复制、选举等机制让多节点就状态达成一致。
+    source_anchor: 容错
+  - id: q11
+    type: single-choice
+    question: CAP 中选择 AP 系统通常意味着什么？
+    options:
+      - 分区时优先可用性，可能接受短暂不一致
+      - 永远强一致
+      - 不能处理网络分区
+      - 只能运行在单机
+    answer: 0
+    explanation: AP 在网络分区下继续服务，但需要最终一致等机制修复差异。
+    source_anchor: 容错

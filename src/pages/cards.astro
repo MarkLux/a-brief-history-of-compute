@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAllLessons, getLessonMetadata, getLessonRouteParts } from '../lib/course';
+const cards = getAllLessons().flatMap((manifestLesson) => {
+  const lesson = getLessonMetadata(manifestLesson.id);
+  const route = getLessonRouteParts(lesson.id);
+  return lesson.concepts.map((concept) => ({ lesson, route, concept }));
+});
+---
+<BaseLayout title="知识卡片 · 计算简史">
+  <h1 class="text-3xl font-bold">知识卡片</h1>
+  <div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+    {cards.map(({ lesson, route, concept }) => (
+      <a class="lesson-card p-5 hover:border-accent" href={`/chapters/${route.chapter}/lesson/${route.lesson}`}>
+        <p class="text-sm text-accent">{lesson.title}</p>
+        <h2 class="mt-2 text-xl font-bold">{concept.name}</h2>
+        <p class="mt-3 text-sm leading-6 text-muted">{concept.summary}</p>
+      </a>
+    ))}
+  </div>
+</BaseLayout>

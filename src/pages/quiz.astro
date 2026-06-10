@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAllLessons, getLessonRouteParts, getQuiz } from '../lib/course';
+const rows = getAllLessons().map((lesson) => ({ lesson, route: getLessonRouteParts(lesson.id), quiz: getQuiz(lesson.id) }));
+---
+<BaseLayout title="测验汇总 · 计算简史">
+  <h1 class="text-3xl font-bold">测验汇总</h1>
+  <div class="mt-6 space-y-3">
+    {rows.map(({ lesson, route, quiz }) => (
+      <a class="lesson-card block p-5 hover:border-accent" href={`/chapters/${route.chapter}/lesson/${route.lesson}`}>
+        <p class="text-sm text-accent">{lesson.id}</p>
+        <h2 class="font-bold">{lesson.title}</h2>
+        <p class="mt-2 text-sm text-muted">{quiz.questions.length} 道检查题</p>
+      </a>
+    ))}
+  </div>
+</BaseLayout>
