@@ -1,0 +1,31 @@
+id: ch4-01
+title: 楔子：从虚拟化到容器
+chapter_id: ch4
+source_md: ch4/01-楔子_从虚拟化到容器.md
+level: intermediate
+estimated_minutes: 45
+prerequisites: []
+concepts:
+  - id: 虚拟化
+    name: 虚拟化
+    summary: 虚拟化 是《楔子：从虚拟化到容器》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    tags:
+      - core
+  - id: 容器
+    name: 容器
+    summary: 容器 是《楔子：从虚拟化到容器》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    tags:
+      - core
+  - id: 隔离
+    name: 隔离
+    summary: 隔离 是《楔子：从虚拟化到容器》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    tags:
+      - core
+interaction_template: cloud-native-design
+teacher_flow:
+  opening_question: 学习《楔子：从虚拟化到容器》之前，先想一想：这篇文章试图解决计算系统中的哪个核心矛盾？
+  lesson_points:
+    - 虚拟化：虚拟化 是《楔子：从虚拟化到容器》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    - 容器：容器 是《楔子：从虚拟化到容器》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    - 隔离：隔离 是《楔子：从虚拟化到容器》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+  closing_check: 请不用背术语，用自己的话解释《楔子：从虚拟化到容器》最重要的一个设计思想。

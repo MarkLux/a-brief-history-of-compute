@@ -1,0 +1,43 @@
+{
+  "name": "a-brief-history-of-compute",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "npm run validate:content && npm run copy:assets && astro build",
+    "preview": "astro preview",
+    "validate:content": "node scripts/validate-content.mjs",
+    "copy:assets": "node scripts/copy-chapter-assets.mjs",
+    "generate:content": "node scripts/generate-starter-content.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/react": "^4.3.0",
+    "@astrojs/tailwind": "^6.0.2",
+    "@vitejs/plugin-react": "^4.7.0",
+    "astro": "^5.13.8",
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^14.1.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.9.2",
+    "yaml": "^2.8.1",
+    "zod": "^4.0.17"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.7.0",
+    "@testing-library/react": "^16.3.0",
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "jsdom": "^26.1.0",
+    "vitest": "^3.2.4"
+  }
+}

@@ -1,0 +1,123 @@
+lesson_id: ch2-03
+questions:
+  - id: q01
+    type: single-choice
+    question: JVM 内存分区的意义是什么？
+    options:
+      - 把不同用途的运行时数据放到不同区域管理
+      - 让所有对象都放到栈上
+      - 取消堆内存
+      - 让 GC 不需要判断对象
+    answer: 0
+    explanation: JVM 将堆、栈、方法区等分开管理，适配不同生命周期和访问方式。
+    source_anchor: 从-v8-gc-到-jvm-gc
+  - id: q02
+    type: single-choice
+    question: 强引用对象为什么通常不会被 GC 回收？
+    options:
+      - 仍可从活跃引用链访问
+      - 它一定在磁盘上
+      - 它没有类型
+      - 它属于操作系统内核
+    answer: 0
+    explanation: 强引用表示对象仍然可达，GC 不会回收可达对象。
+    source_anchor: 堆内存
+  - id: q03
+    type: single-choice
+    question: 弱引用和软引用的关键差别是什么？
+    options:
+      - 软引用通常在内存不足时回收，弱引用下一次 GC 更容易被回收
+      - 弱引用永远不回收
+      - 软引用只能引用线程
+      - 二者完全等价
+    answer: 0
+    explanation: 软引用更适合缓存，弱引用生命周期更短，更容易被 GC 清理。
+    source_anchor: 堆内存
+  - id: q04
+    type: single-choice
+    question: 垃圾检测首先要回答什么问题？
+    options:
+      - 对象是否仍然可达/仍被使用
+      - 对象名字是否好听
+      - 对象是否来自前端
+      - 对象是否有注释
+    answer: 0
+    explanation: GC 的基础是判断对象是否还可能被程序访问。
+    source_anchor: 堆内存
+  - id: q05
+    type: single-choice
+    question: 对象分代机制基于什么观察？
+    options:
+      - 大多数对象朝生夕死，少数对象存活很久
+      - 所有对象寿命完全一样
+      - 对象不能移动
+      - 年轻对象一定更大
+    answer: 0
+    explanation: 分代 GC 利用对象生命周期分布，对年轻代和老年代采用不同策略。
+    source_anchor: 堆内存
+  - id: q06
+    type: single-choice
+    question: 栈内存和堆内存最关键的生命周期差异是什么？
+    options:
+      - 栈随方法调用创建和销毁，堆对象生命周期由可达性和 GC 决定
+      - 堆只能保存基本类型
+      - 栈由 GC 分代回收
+      - 二者没有任何区别
+    answer: 0
+    explanation: 栈与调用帧绑定，堆保存对象，生命周期通常更复杂。
+    source_anchor: 从-v8-gc-到-jvm-gc
+  - id: q07
+    type: single-choice
+    question: 方法区/元空间主要保存哪类信息？
+    options:
+      - 类元数据、常量、方法等运行时结构
+      - 每个对象的实例字段值
+      - 线程本地栈帧
+      - 网络 socket 缓冲区
+    answer: 0
+    explanation: JVM 需要保存类级别信息，供对象创建、方法调用、反射等机制使用。
+    source_anchor: 从-v8-gc-到-jvm-gc
+  - id: q08
+    type: single-choice
+    question: 引用计数为什么不是 Java GC 唯一方案？
+    options:
+      - 循环引用会让对象互相计数而无法回收
+      - 它无法记录任何引用
+      - 它只能用于文件系统
+      - 它一定比可达性分析更准确
+    answer: 0
+    explanation: 引用计数简单但难处理环，Java 主流 GC 更依赖可达性分析。
+    source_anchor: 堆内存
+  - id: q09
+    type: single-choice
+    question: 可达性分析中的 GC Roots 可以理解为什么？
+    options:
+      - 一组确定仍然活跃的起点引用
+      - 所有磁盘文件
+      - 所有已删除对象
+      - 所有字符串字面量的长度
+    answer: 0
+    explanation: 从 GC Roots 出发能访问到的对象被认为仍然可用。
+    source_anchor: 堆内存
+  - id: q10
+    type: single-choice
+    question: 复制算法适合年轻代的原因是什么？
+    options:
+      - 年轻代大多数对象很快死亡，复制少量存活对象成本较低
+      - 年轻代对象永远不死亡
+      - 复制算法不需要额外空间
+      - 只能复制老年代对象
+    answer: 0
+    explanation: 分代假设下年轻代存活对象少，复制算法效率较高。
+    source_anchor: 堆内存
+  - id: q11
+    type: single-choice
+    question: 跨代引用为什么会影响分代 GC？
+    options:
+      - 老年代对象可能引用年轻代对象，年轻代回收不能只看年轻代内部引用
+      - 跨代引用会让对象没有地址
+      - 它让所有对象都在栈上
+      - 它只影响 CSS
+    answer: 0
+    explanation: 跨代引用要求记录集/写屏障等机制辅助，避免漏标年轻代对象。
+    source_anchor: 堆内存

@@ -1,0 +1,46 @@
+lesson_id: ch4-04
+tasks:
+  - id: p01
+    type: diagram
+    prompt: 画出 Pod 内 Pause 容器和业务容器共享 namespace 的关系，说明为什么需要 Pause。
+    rubric:
+      - 说明 Pause 提供共享上下文
+      - 说明业务容器加入同一网络等 namespace
+      - 不要把 Pause 写成业务容器
+    answer:
+      - 答案应覆盖：说明 Pause 提供共享上下文
+      - 答案应覆盖：说明业务容器加入同一网络等 namespace
+      - 答案应覆盖：不要把 Pause 写成业务容器
+  - id: p02
+    type: flow
+    prompt: 描述 Service 到 Pod 的转发链路：Service、Endpoint/EndpointSlice、kube-proxy、Pod IP。
+    rubric:
+      - 包含四个关键对象
+      - 说明 Endpoint 随 Pod 变化
+      - 说明 kube-proxy 维护转发规则
+    answer:
+      - 答案应覆盖：包含四个关键对象
+      - 答案应覆盖：说明 Endpoint 随 Pod 变化
+      - 答案应覆盖：说明 kube-proxy 维护转发规则
+  - id: p03
+    type: compare
+    prompt: 比较 Liveness Probe 和 Readiness Probe：触发后果、适用场景、误用风险。
+    rubric:
+      - 说明 liveness 影响重启
+      - 说明 readiness 影响接流量
+      - 给出误用风险
+    answer:
+      - 答案应覆盖：说明 liveness 影响重启
+      - 答案应覆盖：说明 readiness 影响接流量
+      - 答案应覆盖：给出误用风险
+  - id: p04
+    type: explain
+    prompt: 解释为什么 Headless Service 适合有状态服务，而普通 Service 更适合屏蔽后端实例变化。
+    rubric:
+      - 说明是否分配 ClusterIP
+      - 说明具体实例发现
+      - 结合有状态服务身份需求
+    answer:
+      - 答案应覆盖：说明是否分配 ClusterIP
+      - 答案应覆盖：说明具体实例发现
+      - 答案应覆盖：结合有状态服务身份需求

@@ -58,3 +58,43 @@
 - 06：展望
 
 ### Ch 5* 计算机的灵魂：算法与数据结构
+
+## 交互式学习网站
+
+本仓库可以作为交互式学习网站在本地运行。网站使用 Astro 生成静态页面，不需要后端服务。
+
+### 本地运行
+
+```bash
+npm install
+npm run generate:content
+npm run validate:content
+npm run dev
+```
+
+打开 Astro 输出的本地地址即可学习。
+
+### 构建
+
+```bash
+npm run build
+```
+
+构建会先运行内容校验，确保课程 manifest、lesson、quiz 和 practice 数据一致。
+
+### 本地学习进度
+
+网站学习进度保存在浏览器 `localStorage` 中。Claude Code 老师的学习记录保存在 `.learning-cache/` 中。`.learning-cache/` 是个人本地缓存，不应提交到 git。
+
+### Claude Code 老师
+
+在 Claude Code 中可以使用项目技能进行带学：
+
+```text
+/teach-topic ch4-03
+/review-answer "你的回答"
+/practice-task ch2-04
+/generate-lesson-page ch1-03
+```
+
+老师模式使用“讲解 → 提问 → 练习 → 点评 → 总结薄弱点”的学习流程。

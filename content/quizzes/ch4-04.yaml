@@ -1,0 +1,112 @@
+lesson_id: ch4-04
+questions:
+  - id: q01
+    type: single-choice
+    question: Pause 容器在 Pod 中的作用是什么？
+    options:
+      - 提供共享命名空间基础，让业务容器加入同一网络等上下文
+      - 负责业务逻辑计算
+      - 替代 kubelet
+      - 保存镜像仓库
+    answer: 0
+    explanation: Pause 容器是 Pod 共享 namespace 的基础，业务容器加入它提供的上下文。
+    source_anchor: 调度器
+  - id: q02
+    type: single-choice
+    question: Pod 生命周期和探针设计主要解决什么问题？
+    options:
+      - 让平台感知容器是否启动、存活和就绪
+      - 让镜像变小
+      - 让 YAML 不需要缩进
+      - 让 Service 不能访问 Pod
+    answer: 0
+    explanation: 探针让 Kubernetes 判断应用健康状态并做重启、摘流等动作。
+    source_anchor: 调度器
+  - id: q03
+    type: single-choice
+    question: NodePort 和 LoadBalancer 的区别主要是什么？
+    options:
+      - 暴露服务的层级和外部负载均衡能力不同
+      - 一个是数据库一个是缓存
+      - 二者都只能集群内访问
+      - 二者都不依赖 Service
+    answer: 0
+    explanation: NodePort 暴露节点端口，LoadBalancer 通常结合云厂商负载均衡器对外暴露。
+    source_anchor: etcd
+  - id: q04
+    type: single-choice
+    question: Endpoint 在 Service 机制中表示什么？
+    options:
+      - Service 后端实际可访问的 Pod 地址集合
+      - 容器镜像层
+      - DNS 根域名
+      - 节点操作系统版本
+    answer: 0
+    explanation: Service 通过 Endpoint/EndpointSlice 追踪后端实例地址。
+    source_anchor: etcd
+  - id: q05
+    type: single-choice
+    question: Headless Service 的特点是什么？
+    options:
+      - 不分配普通 ClusterIP，常用于直接暴露后端实例地址
+      - 只能暴露 HTTP
+      - 会删除所有 Pod
+      - 只能运行在单节点
+    answer: 0
+    explanation: Headless Service 适合有状态服务等需要直接发现具体实例的场景。
+    source_anchor: etcd
+  - id: q06
+    type: single-choice
+    question: kube-proxy 在 Service 中主要做什么？
+    options:
+      - 维护服务转发规则，把流量导向后端 Pod
+      - 启动 Java 线程
+      - 保存容器日志
+      - 编译 YAML
+    answer: 0
+    explanation: kube-proxy 根据 Service/Endpoint 信息配置转发规则。
+    source_anchor: etcd
+  - id: q07
+    type: single-choice
+    question: DNS 形式服务发现解决什么体验问题？
+    options:
+      - 调用方用稳定域名访问服务而非记忆 Pod IP
+      - 让 Pod 不需要网络
+      - 让镜像自动变小
+      - 让 Service 不能变化
+    answer: 0
+    explanation: 服务 DNS 名称为动态后端提供稳定访问方式。
+    source_anchor: etcd
+  - id: q08
+    type: single-choice
+    question: Readiness Probe 和 Liveness Probe 的区别是什么？
+    options:
+      - 前者决定是否接流量，后者决定是否需要重启
+      - 二者都只负责编译镜像
+      - Readiness 会删除 Pod
+      - Liveness 只用于 DNS
+    answer: 0
+    explanation: 就绪探针保护流量入口，存活探针处理进程卡死或异常。
+    source_anchor: 调度器
+  - id: q09
+    type: single-choice
+    question: Endpoint 变化为什么必须及时同步到 Service 转发？
+    options:
+      - Pod 动态创建销毁，转发目标必须跟着变化
+      - Endpoint 是静态文件
+      - Service 只能转发到一个 Pod
+      - Pod IP 永远不变
+    answer: 0
+    explanation: Kubernetes 的动态性要求 Service 后端集合随 Pod 生命周期变化而更新。
+    source_anchor: etcd
+  - id: q10
+    type: single-choice
+    question: Headless Service 为什么常和有状态服务相关？
+    options:
+      - 调用方可能需要感知并访问具体实例
+      - 它会隐藏所有实例
+      - 它只能暴露公网 IP
+      - 它不支持 DNS
+    answer: 0
+    explanation: 有状态应用常需要稳定实例身份，Headless Service 允许发现具体后端。
+    source_anchor: etcd

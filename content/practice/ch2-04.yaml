@@ -1,0 +1,35 @@
+lesson_id: ch2-04
+tasks:
+  - id: p01
+    type: compare
+    prompt: 用前端事件循环类比 Java 线程：分别说明任务调度、并发执行、阻塞、共享状态四个方面的差异。
+    rubric:
+      - 说明事件循环通常单线程调度任务
+      - 说明 Java 线程可并发/并行执行
+      - 说明共享状态需要同步
+    answer:
+      - 答案应覆盖：说明事件循环通常单线程调度任务
+      - 答案应覆盖：说明 Java 线程可并发/并行执行
+      - 答案应覆盖：说明共享状态需要同步
+  - id: p02
+    type: state-machine
+    prompt: 画出 Java 线程状态转换图，至少包含 NEW、RUNNABLE、BLOCKED、WAITING、TIMED_WAITING、TERMINATED。
+    rubric:
+      - 状态完整
+      - 说明 BLOCKED 和 WAITING 的差异
+      - 给出至少两个触发转换的例子
+    answer:
+      - 答案应覆盖：状态完整
+      - 答案应覆盖：说明 BLOCKED 和 WAITING 的差异
+      - 答案应覆盖：给出至少两个触发转换的例子
+  - id: p03
+    type: debug
+    prompt: 一个线程调用 interrupt 后没有停止，如何解释？请说明 interrupt 标志、阻塞方法响应、业务代码主动检查之间的关系。
+    rubric:
+      - 说明 interrupt 是协作信号
+      - 说明阻塞方法可能抛异常或返回
+      - 说明线程需要自己响应
+    answer:
+      - 答案应覆盖：说明 interrupt 是协作信号
+      - 答案应覆盖：说明阻塞方法可能抛异常或返回
+      - 答案应覆盖：说明线程需要自己响应

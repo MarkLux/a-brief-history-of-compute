@@ -1,0 +1,112 @@
+lesson_id: ch4-02
+questions:
+  - id: q01
+    type: single-choice
+    question: IaaS 阶段主要向用户提供什么？
+    options:
+      - 虚拟机、网络、存储等基础资源
+      - 完整业务代码
+      - 浏览器插件
+      - 只读文档
+    answer: 0
+    explanation: IaaS 把基础设施资源云化，用户仍需管理系统和应用。
+    source_anchor: 云计算
+  - id: q02
+    type: single-choice
+    question: PaaS 相比 IaaS 更进一步在哪里？
+    options:
+      - 试图屏蔽更多部署和运维细节，让开发者专注应用
+      - 只卖物理服务器
+      - 取消运行时
+      - 只能运行静态网页
+    answer: 0
+    explanation: PaaS 提供更高层平台能力，但也容易带来约束和生态锁定。
+    source_anchor: 资源池化
+  - id: q03
+    type: single-choice
+    question: Docker 崛起解决了 PaaS 时代的什么痛点？
+    options:
+      - 标准化应用打包和运行环境，降低平台绑定
+      - 让云计算不需要网络
+      - 让所有应用变成单体
+      - 取消镜像分发
+    answer: 0
+    explanation: 容器镜像让应用交付更标准、更可移植，是云原生生态的重要前提。
+    source_anchor: 资源池化
+  - id: q04
+    type: single-choice
+    question: 服务端应用从单体到微服务的主要驱动力是什么？
+    options:
+      - 复杂度、团队协作、弹性伸缩和独立部署需求增长
+      - 代码越分越慢所以必须拆
+      - 数据库不能连接单体
+      - 浏览器不能访问单体
+    answer: 0
+    explanation: 业务变复杂后，单体在发布、扩展和团队协作上会遇到瓶颈。
+    source_anchor: 弹性
+  - id: q05
+    type: single-choice
+    question: “云原生”更像是在回答什么问题？
+    options:
+      - 如何充分利用云的弹性、自动化和分布式能力构建应用
+      - 如何回到纯物理机时代
+      - 如何只用一个进程跑所有业务
+      - 如何避免任何自动化
+    answer: 0
+    explanation: 云原生不是单个技术，而是一套围绕云环境设计、交付和运维应用的方法。
+    source_anchor: 弹性
+  - id: q06
+    type: single-choice
+    question: GAE 这类早期 PaaS 为什么有吸引力也有局限？
+    options:
+      - 简化部署但约束运行时和架构选择
+      - 完全不需要应用代码
+      - 只能运行虚拟机
+      - 不能处理 HTTP
+    answer: 0
+    explanation: PaaS 抽象运维细节，但强平台约束会限制灵活性。
+    source_anchor: 资源池化
+  - id: q07
+    type: single-choice
+    question: 容器崛起后，平台和应用的边界发生了什么变化？
+    options:
+      - 应用携带运行环境，平台围绕标准容器调度
+      - 平台必须理解每种语言源码
+      - 应用不能被打包
+      - 所有服务回到单体
+    answer: 0
+    explanation: 容器镜像把运行环境标准化，平台更容易以统一方式调度应用。
+    source_anchor: 资源池化
+  - id: q08
+    type: single-choice
+    question: 单体式应用的主要优势是什么？
+    options:
+      - 早期开发、部署和调试简单
+      - 永远适合无限复杂业务
+      - 不能访问数据库
+      - 天然支持无限扩容
+    answer: 0
+    explanation: 单体在规模较小时简单直接，但复杂度增长后会出现协作和扩展瓶颈。
+    source_anchor: 弹性
+  - id: q09
+    type: single-choice
+    question: 微服务拆分会带来什么新成本？
+    options:
+      - 网络调用、服务治理、数据一致性和运维复杂度
+      - 所有模块都变成本地函数
+      - 数据库事务更简单
+      - 部署完全不需要平台
+    answer: 0
+    explanation: 微服务不是免费午餐，拆分后需要治理分布式复杂性。
+    source_anchor: 弹性
+  - id: q10
+    type: single-choice
+    question: 云原生强调自动化的原因是什么？
+    options:
+      - 动态资源环境中人工操作难以可靠管理大规模应用
+      - 因为人不能写代码
+      - 因为虚拟机不能运行程序
+      - 因为容器没有日志
+    answer: 0
+    explanation: 弹性和规模要求平台自动调度、恢复、扩缩容。
+    source_anchor: 弹性

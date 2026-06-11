@@ -1,0 +1,35 @@
+lesson_id: ch4-01
+tasks:
+  - id: p01
+    type: compare
+    prompt: 比较虚拟机和容器：隔离边界、启动速度、资源开销、交付产物、安全边界。
+    rubric:
+      - 至少 5 个维度
+      - 说明容器共享宿主机内核
+      - 说明虚拟机隔离更重
+    answer:
+      - 答案应覆盖：至少 5 个维度
+      - 答案应覆盖：说明容器共享宿主机内核
+      - 答案应覆盖：说明虚拟机隔离更重
+  - id: p02
+    type: diagram
+    prompt: 画出容器隔离的两条主线：namespace 提供视图隔离，cgroups 提供资源限制。
+    rubric:
+      - 区分 namespace 和 cgroups
+      - 举出 PID/Network/Mount 任一 namespace
+      - 说明 CPU/Memory 限制
+    answer:
+      - 答案应覆盖：区分 namespace 和 cgroups
+      - 答案应覆盖：举出 PID/Network/Mount 任一 namespace
+      - 答案应覆盖：说明 CPU/Memory 限制
+  - id: p03
+    type: explain
+    prompt: 解释 Docker 镜像为什么可以被看作 rootfs + 分层元数据，并说明分层带来的复用价值。
+    rubric:
+      - 提到 rootfs
+      - 提到镜像层
+      - 说明缓存/复用/分发价值
+    answer:
+      - 答案应覆盖：提到 rootfs
+      - 答案应覆盖：提到镜像层
+      - 答案应覆盖：说明缓存/复用/分发价值

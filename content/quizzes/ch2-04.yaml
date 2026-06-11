@@ -1,0 +1,112 @@
+lesson_id: ch2-04
+questions:
+  - id: q01
+    type: single-choice
+    question: 线程和进程最关键的区别是什么？
+    options:
+      - 同一进程内线程共享进程资源但有独立执行流
+      - 线程一定比进程大
+      - 线程不能被调度
+      - 进程不能包含代码
+    answer: 0
+    explanation: 线程是进程内的执行流，共享地址空间和资源，但有自己的栈和执行状态。
+    source_anchor: 从浏览器事件循环到线程
+  - id: q02
+    type: single-choice
+    question: 用户线程和内核线程的差异主要体现在哪里？
+    options:
+      - 调度和管理发生在用户态还是内核态
+      - 是否能写 Java 代码
+      - 是否能访问字符串
+      - 是否能保存文件
+    answer: 0
+    explanation: 内核线程由操作系统调度，用户线程由用户态运行时管理。
+    source_anchor: 从浏览器事件循环到线程
+  - id: q03
+    type: single-choice
+    question: Java 线程状态的意义是什么？
+    options:
+      - 描述线程在生命周期中的运行、阻塞、等待等阶段
+      - 描述对象是否能继承
+      - 描述文件系统路径
+      - 描述网络协议版本
+    answer: 0
+    explanation: 线程状态帮助理解调度、阻塞、等待、终止等运行行为。
+    source_anchor: 同步
+  - id: q04
+    type: single-choice
+    question: 抢占式调度相比协同式调度的关键特点是什么？
+    options:
+      - 系统可主动暂停当前线程切换到其他线程
+      - 线程只能自己让出 CPU
+      - 不能处理中断
+      - 只适用于浏览器 UI
+    answer: 0
+    explanation: 抢占式调度由系统决定切换时机，更适合多任务公平性和响应性。
+    source_anchor: 同步
+  - id: q05
+    type: single-choice
+    question: 线程打断机制的正确理解是什么？
+    options:
+      - 向线程发出协作式停止/唤醒信号，线程需检查并响应
+      - 强制立即杀死任意代码
+      - 删除线程对象字段
+      - 修改 Java 字节码
+    answer: 0
+    explanation: Java interrupt 更像协作信号，不是无条件暴力终止。
+    source_anchor: 同步
+  - id: q06
+    type: single-choice
+    question: 对前端同学来说，线程和事件循环最大的差异是什么？
+    options:
+      - 线程是真正的并发执行单元，事件循环是在单线程中调度任务队列
+      - 事件循环一定多核并行
+      - 线程不能阻塞
+      - 二者完全等价
+    answer: 0
+    explanation: 浏览器 JS 常见模型是事件循环；Java 线程则涉及 OS/JVM 调度和共享内存并发。
+    source_anchor: 从浏览器事件循环到线程
+  - id: q07
+    type: single-choice
+    question: Java 线程抽象为什么依赖操作系统能力？
+    options:
+      - 线程最终要被 OS 调度到 CPU 上执行
+      - Java 线程只存在源码里
+      - 线程只能由浏览器创建
+      - JVM 不需要 CPU
+    answer: 0
+    explanation: Java Thread 是语言层抽象，底层通常映射或依赖操作系统线程调度。
+    source_anchor: 从浏览器事件循环到线程
+  - id: q08
+    type: single-choice
+    question: BLOCKED 和 WAITING 状态的区别更接近哪种？
+    options:
+      - BLOCKED 等锁，WAITING 等显式条件/通知
+      - 二者都是 RUNNABLE
+      - WAITING 一定占用 CPU
+      - BLOCKED 表示线程结束
+    answer: 0
+    explanation: 理解非 RUNNABLE 状态有助于定位锁竞争和等待条件问题。
+    source_anchor: 同步
+  - id: q09
+    type: single-choice
+    question: 线程优先级为什么不能作为可靠业务正确性手段？
+    options:
+      - 调度策略受 JVM/OS 影响，优先级只是提示
+      - 优先级会保证严格执行顺序
+      - 优先级能替代锁
+      - 优先级只影响文件系统
+    answer: 0
+    explanation: 线程优先级不是强约束，不能依赖它保证业务顺序或同步。
+    source_anchor: 同步
+  - id: q10
+    type: single-choice
+    question: 为什么共享变量需要同步机制？
+    options:
+      - 多个线程读写会产生竞态和可见性问题
+      - 变量不能保存在内存中
+      - 同步会取消所有并发
+      - 只有前端才有共享变量
+    answer: 0
+    explanation: 并发读写共享状态需要锁、volatile、原子类等机制保证正确性。
+    source_anchor: 并发

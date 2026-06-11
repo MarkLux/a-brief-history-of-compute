@@ -1,0 +1,46 @@
+lesson_id: ch4-03
+tasks:
+  - id: p01
+    type: diagram
+    prompt: 画出 Deployment → ReplicaSet → Pod → Container 的控制关系，并说明每一层负责什么。
+    rubric:
+      - 层级关系正确
+      - 说明 ReplicaSet 保副本数
+      - 说明 Pod 是调度单位
+    answer:
+      - 答案应覆盖：层级关系正确
+      - 答案应覆盖：说明 ReplicaSet 保副本数
+      - 答案应覆盖：说明 Pod 是调度单位
+  - id: p02
+    type: explain
+    prompt: 解释声明式 API：给出一个“期望 3 个副本，实际 2 个副本”的例子，说明控制器如何处理。
+    rubric:
+      - 包含期望状态
+      - 包含实际状态
+      - 说明控制器补齐差异
+    answer:
+      - 答案应覆盖：包含期望状态
+      - 答案应覆盖：包含实际状态
+      - 答案应覆盖：说明控制器补齐差异
+  - id: p03
+    type: compare
+    prompt: 比较 Service 和 Ingress：分别解决什么访问问题？为什么不能只靠 Pod IP？
+    rubric:
+      - 说明 Pod IP 动态变化
+      - 说明 Service 稳定入口
+      - 说明 Ingress 管七层外部入口
+    answer:
+      - 答案应覆盖：说明 Pod IP 动态变化
+      - 答案应覆盖：说明 Service 稳定入口
+      - 答案应覆盖：说明 Ingress 管七层外部入口
+  - id: p04
+    type: case-study
+    prompt: 一个 Pod 被删除后业务仍可访问，解释背后有哪些 Kubernetes 对象参与。
+    rubric:
+      - 提到 ReplicaSet/Deployment 重建
+      - 提到 Service 选择新 Pod
+      - 说明声明式控制循环
+    answer:
+      - 答案应覆盖：提到 ReplicaSet/Deployment 重建
+      - 答案应覆盖：提到 Service 选择新 Pod
+      - 答案应覆盖：说明声明式控制循环

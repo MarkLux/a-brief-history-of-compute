@@ -1,0 +1,68 @@
+lesson_id: ch1-02
+questions:
+  - id: q01
+    type: single-choice
+    question: 操作系统从早期阶段发展出来，最核心的目标是什么？
+    options:
+      - 让硬件更贵
+      - 统一管理硬件资源并为程序提供抽象
+      - 取消应用程序
+      - 只服务图形界面
+    answer: 1
+    explanation: 操作系统的核心价值是资源管理和抽象，让应用不用直接面对复杂硬件。
+    source_anchor: 资源抽象
+  - id: q02
+    type: single-choice
+    question: Linux 系统核心设计中，“一切皆文件”主要体现了什么思想？
+    options:
+      - 所有内容都必须是文本
+      - 用统一接口抽象不同设备和资源
+      - 只能访问磁盘文件
+      - 文件系统不能扩展
+    answer: 1
+    explanation: Linux 把设备、管道、socket 等抽象成文件接口，降低交互复杂度。
+    source_anchor: 资源抽象
+  - id: q03
+    type: single-choice
+    question: 内核态和用户态的区分主要是为了什么？
+    options:
+      - 让用户态速度更快
+      - 隔离高权限操作，保护系统安全和稳定
+      - 让所有程序都能直接操作硬件
+      - 取消系统调用
+    answer: 1
+    explanation: 内核态拥有高权限，用户态受限制，通过隔离防止普通程序破坏系统。
+    source_anchor: 资源抽象
+  - id: q04
+    type: single-choice
+    question: 系统调用在用户程序和内核之间扮演什么角色？
+    options:
+      - 用户程序访问内核能力的受控入口
+      - 一种 Java 语法
+      - 磁盘分区格式
+      - 只用于图形渲染
+    answer: 0
+    explanation: 系统调用让用户态程序以受控方式请求内核执行高权限操作。
+    source_anchor: 资源抽象
+  - id: q05
+    type: single-choice
+    question: 为什么不能让所有程序都运行在内核态？
+    options:
+      - 内核态不能运行代码
+      - 一旦程序出错可能破坏整个系统
+      - 内核态只能读文件
+      - 内核态没有 CPU
+    answer: 1
+    explanation: 如果普通程序都拥有内核权限，内存、设备和进程都可能被随意破坏。
+    source_anchor: 资源抽象
+  - id: q06
+    type: single-choice
+    question: 系统调用为什么不是普通函数调用？
+    options:
+      - 它涉及从用户态进入内核态的权限切换
+      - 它只能返回字符串
+      - 它不需要操作系统参与
+      - 它只发生在浏览器中
+    answer: 0
+    explanation: 系统调用跨越用户态和内核态，是受控访问内核能力的边界。
+    source_anchor: 资源抽象

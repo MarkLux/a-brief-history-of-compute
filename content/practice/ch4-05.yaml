@@ -1,0 +1,46 @@
+lesson_id: ch4-05
+tasks:
+  - id: p01
+    type: flow
+    prompt: 写出 Controller 的 Reconcile 流程：监听变化、读取实际状态、比较期望状态、执行修正、更新状态。
+    rubric:
+      - 包含完整控制循环
+      - 说明不是一次性脚本
+      - 说明状态更新
+    answer:
+      - 答案应覆盖：包含完整控制循环
+      - 答案应覆盖：说明不是一次性脚本
+      - 答案应覆盖：说明状态更新
+  - id: p02
+    type: diagram
+    prompt: 画出 Informer/List-Watch/本地缓存/工作队列/Worker 的关系。
+    rubric:
+      - 包含 List-Watch
+      - 包含本地缓存
+      - 包含队列和 worker
+    answer:
+      - 答案应覆盖：包含 List-Watch
+      - 答案应覆盖：包含本地缓存
+      - 答案应覆盖：包含队列和 worker
+  - id: p03
+    type: design
+    prompt: 设计一个简单 Operator：管理一个自定义 BackupJob 资源。写出 CRD 字段、Controller 监听对象、Reconcile 动作。
+    rubric:
+      - 包含 CRD 字段
+      - 说明监听和调谐逻辑
+      - 说明成功/失败状态记录
+    answer:
+      - 答案应覆盖：包含 CRD 字段
+      - 答案应覆盖：说明监听和调谐逻辑
+      - 答案应覆盖：说明成功/失败状态记录
+  - id: p04
+    type: compare
+    prompt: 比较 CRD、Webhook、Controller 的职责边界：谁定义对象，谁校验/默认值，谁持续执行动作。
+    rubric:
+      - 边界清晰
+      - 说明 admission webhook 时机
+      - 说明 controller 负责长期状态收敛
+    answer:
+      - 答案应覆盖：边界清晰
+      - 答案应覆盖：说明 admission webhook 时机
+      - 答案应覆盖：说明 controller 负责长期状态收敛

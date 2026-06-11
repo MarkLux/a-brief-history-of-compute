@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getAllLessons, getChapters, getCourseManifest, getLessonRouteParts } from '../lib/course';
+
+const manifest = getCourseManifest();
+const chapters = getChapters();
+const firstLesson = getAllLessons()[0];
+const firstRoute = getLessonRouteParts(firstLesson.id);
+---
+<BaseLayout title="计算简史 · 交互式学习">
+  <section class="rounded-3xl bg-white/75 p-8 shadow-xl shadow-black/5">
+    <p class="text-sm font-semibold text-accent">Interactive Learning</p>
+    <h1 class="mt-3 text-4xl font-bold text-ink md:text-5xl">{manifest.course.title}</h1>
+    <p class="mt-4 max-w-3xl text-lg leading-8 text-muted">{manifest.course.description}</p>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <a class="rounded-xl bg-ink px-5 py-3 font-semibold text-white" href={`/chapters/${firstRoute.chapter}/lesson/${firstRoute.lesson}`}>开始学习</a>
+      <a class="rounded-xl border border-accent px-5 py-3 font-semibold text-accent" href="/chapters">浏览章节</a>
+    </div>
+  </section>
+
+  <section class="mt-8 grid gap-4 md:grid-cols-4">
+    {chapters.map((chapter) => (
+      <a class="lesson-card p-5 hover:border-accent" href={`/chapters/${chapter.id}`}>
+        <p class="text-sm font-semibold text-accent">{chapter.id.toUpperCase()}</p>
+        <h2 class="mt-2 text-xl font-bold">{chapter.title}</h2>
+        <p class="mt-3 text-sm text-muted">{chapter.lessons.length} 篇课程</p>
+      </a>
+    ))}
+  </section>
+</BaseLayout>

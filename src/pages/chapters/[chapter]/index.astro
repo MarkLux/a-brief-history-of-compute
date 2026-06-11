@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getChapter, getChapters, getLessonRouteParts } from '../../../lib/course';
+
+export function getStaticPaths() {
+  return getChapters().map((chapter) => ({ params: { chapter: chapter.id } }));
+}
+
+const chapter = getChapter(Astro.params.chapter ?? '');
+if (!chapter) throw new Error(`Unknown chapter: ${Astro.params.chapter}`);
+---
+<BaseLayout title={`${chapter.title} · 计算简史`}>
+  <a class="text-sm text-accent" href="/chapters">← 返回章节总览</a>
+  <h1 class="mt-3 text-3xl font-bold">{chapter.title}</h1>
+  <div class="mt-6 grid gap-4 md:grid-cols-2">
+    {chapter.lessons.map((lesson) => {
+      const route = getLessonRouteParts(lesson.id);
+      return (
+        <a class="lesson-card p-5 hover:border-accent" href={`/chapters/${route.chapter}/lesson/${route.lesson}`}>
+          <p class="text-sm font-semibold text-accent">{lesson.id}</p>
+          <h2 class="mt-2 text-xl font-bold">{lesson.title}</h2>
+          <p class="mt-3 text-sm text-muted">进入交互式学习页 →</p>
+        </a>
+      );
+    })}
+  </div>
+</BaseLayout>

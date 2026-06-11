@@ -1,0 +1,32 @@
+id: ch1-03
+title: Linux 的设计哲学：文件系统
+chapter_id: ch1
+source_md: ch1/03-Linux的设计哲学_文件系统.md
+level: beginner
+estimated_minutes: 35
+prerequisites:
+  - ch1-02
+concepts:
+  - id: 文件系统
+    name: 文件系统
+    summary: 文件系统 是《Linux 的设计哲学：文件系统》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    tags:
+      - core
+  - id: inode
+    name: inode
+    summary: inode 是《Linux 的设计哲学：文件系统》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    tags:
+      - core
+  - id: 一切皆文件
+    name: 一切皆文件
+    summary: 一切皆文件 是《Linux 的设计哲学：文件系统》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    tags:
+      - core
+interaction_template: system-mechanism
+teacher_flow:
+  opening_question: 学习《Linux 的设计哲学：文件系统》之前，先想一想：这篇文章试图解决计算系统中的哪个核心矛盾？
+  lesson_points:
+    - 文件系统：文件系统 是《Linux 的设计哲学：文件系统》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    - inode：inode 是《Linux 的设计哲学：文件系统》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    - 一切皆文件：一切皆文件 是《Linux 的设计哲学：文件系统》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+  closing_check: 请不用背术语，用自己的话解释《Linux 的设计哲学：文件系统》最重要的一个设计思想。

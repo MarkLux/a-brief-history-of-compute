@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="本地学习进度 · 计算简史">
+  <section class="lesson-card p-6">
+    <h1 class="text-3xl font-bold">本地学习进度</h1>
+    <p class="mt-3 text-muted">进度保存在当前浏览器的 localStorage 中，不会上传到服务器。</p>
+    <div id="progress-root" class="mt-6 rounded-xl bg-paper p-4 text-sm text-muted">正在读取本地进度...</div>
+  </section>
+  <script>
+    const root = document.querySelector('#progress-root');
+    const raw = localStorage.getItem('abhoc-learning-progress');
+    if (root) {
+      if (!raw) {
+        root.textContent = '还没有学习记录。完成测验或标记课程完成后，这里会显示进度。';
+      } else {
+        const progress = JSON.parse(raw);
+        root.innerHTML = `
+          <p>已完成课程：${progress.completedLessons?.length ?? 0}</p>
+          <p>测验记录：${Object.keys(progress.quizAttempts ?? {}).length}</p>
+          <p>薄弱概念：${(progress.weakConcepts ?? []).join('、') || '暂无'}</p>
+        `;
+      }
+    }
+  </script>
+</BaseLayout>

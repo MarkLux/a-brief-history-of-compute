@@ -1,0 +1,31 @@
+id: ch3-04
+title: 分布式系统
+chapter_id: ch3
+source_md: ch3/04-分布式系统.md
+level: intermediate
+estimated_minutes: 45
+prerequisites: []
+concepts:
+  - id: 分布式系统
+    name: 分布式系统
+    summary: 分布式系统 是《分布式系统》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    tags:
+      - core
+  - id: 一致性
+    name: 一致性
+    summary: 一致性 是《分布式系统》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    tags:
+      - core
+  - id: 容错
+    name: 容错
+    summary: 容错 是《分布式系统》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    tags:
+      - core
+interaction_template: distributed-thinking
+teacher_flow:
+  opening_question: 学习《分布式系统》之前，先想一想：这篇文章试图解决计算系统中的哪个核心矛盾？
+  lesson_points:
+    - 分布式系统：分布式系统 是《分布式系统》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    - 一致性：一致性 是《分布式系统》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+    - 容错：容错 是《分布式系统》中的关键概念，需要理解它解决的问题、工作机制和设计取舍。
+  closing_check: 请不用背术语，用自己的话解释《分布式系统》最重要的一个设计思想。
